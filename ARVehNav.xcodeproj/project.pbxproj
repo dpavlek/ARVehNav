@@ -13,6 +13,10 @@
 		1F9699F92044345500D88EE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F9699F82044345500D88EE0 /* Assets.xcassets */; };
 		1F9699FC2044345500D88EE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */; };
 		1F969A042044370900D88EE0 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F969A032044370900D88EE0 /* ARViewController.swift */; };
+		1FB6566A205BFA4600732596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB65669205BFA4500732596 /* GoogleService-Info.plist */; };
+		1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566B205C1B9100732596 /* AddARViewController.swift */; };
+		1FB6566E205C1BB800732596 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566D205C1BB800732596 /* Item.swift */; };
+		3923C22F4A6EFDBE42B1C216 /* Pods_ARVehNav.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,12 @@
 		1F9699FB2044345500D88EE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F9699FD2044345500D88EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F969A032044370900D88EE0 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
+		1FB65669205BFA4500732596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1FB6566B205C1B9100732596 /* AddARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARViewController.swift; sourceTree = "<group>"; };
+		1FB6566D205C1BB800732596 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		4721F447FBA504CFE7417B35 /* Pods-ARVehNav.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.debug.xcconfig"; sourceTree = "<group>"; };
+		5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARVehNav.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E6112D409478739BA6C8D00 /* Pods-ARVehNav.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3923C22F4A6EFDBE42B1C216 /* Pods_ARVehNav.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +53,8 @@
 			children = (
 				1F9699F02044345500D88EE0 /* ARVehNav */,
 				1F9699EF2044345500D88EE0 /* Products */,
+				89D29AFAF8B440BB67E9D504 /* Pods */,
+				42EBD0363676FC348D4919CF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,8 +76,28 @@
 				1F9699F82044345500D88EE0 /* Assets.xcassets */,
 				1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */,
 				1F9699FD2044345500D88EE0 /* Info.plist */,
+				1FB65669205BFA4500732596 /* GoogleService-Info.plist */,
+				1FB6566B205C1B9100732596 /* AddARViewController.swift */,
+				1FB6566D205C1BB800732596 /* Item.swift */,
 			);
 			path = ARVehNav;
+			sourceTree = "<group>";
+		};
+		42EBD0363676FC348D4919CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		89D29AFAF8B440BB67E9D504 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4721F447FBA504CFE7417B35 /* Pods-ARVehNav.debug.xcconfig */,
+				9E6112D409478739BA6C8D00 /* Pods-ARVehNav.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +107,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F969A002044345500D88EE0 /* Build configuration list for PBXNativeTarget "ARVehNav" */;
 			buildPhases = (
+				A910A425C81AEDC654ACE945 /* [CP] Check Pods Manifest.lock */,
 				1F9699EA2044345500D88EE0 /* Sources */,
 				1F9699EB2044345500D88EE0 /* Frameworks */,
 				1F9699EC2044345500D88EE0 /* Resources */,
+				3D1AAEE63349FEF9F620B57F /* [CP] Embed Pods Frameworks */,
+				5D840EF10054F58EAC968BEB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -127,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F9699FC2044345500D88EE0 /* LaunchScreen.storyboard in Resources */,
+				1FB6566A205BFA4600732596 /* GoogleService-Info.plist in Resources */,
 				1F9699F92044345500D88EE0 /* Assets.xcassets in Resources */,
 				1F9699F72044345500D88EE0 /* Main.storyboard in Resources */,
 			);
@@ -134,14 +171,118 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3D1AAEE63349FEF9F620B57F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5D840EF10054F58EAC968BEB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-resources.sh",
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
+				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A910A425C81AEDC654ACE945 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARVehNav-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1F9699EA2044345500D88EE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB6566E205C1BB800732596 /* Item.swift in Sources */,
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
+				1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +417,7 @@
 		};
 		1F969A012044345500D88EE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4721F447FBA504CFE7417B35 /* Pods-ARVehNav.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -291,6 +433,7 @@
 		};
 		1F969A022044345500D88EE0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E6112D409478739BA6C8D00 /* Pods-ARVehNav.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
