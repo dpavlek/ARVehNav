@@ -15,6 +15,11 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation!
     
+    var testCoordinate = CLLocationCoordinate2D(latitude: 45.31232301758361, longitude: 18.405930981092297)
+    var testAltitude = 102.0
+    var currentCoordinates = CLLocationCoordinate2D()
+    var currentAltitude = 0.0
+    
     @IBOutlet weak var ARView: ARSCNView!
     @IBOutlet weak var GPSLoc: UILabel!
     
@@ -22,7 +27,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.locationManager.requestWhenInUseAuthorization()
         if(CLLocationManager.locationServicesEnabled()){
             self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -32,19 +36,23 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         
         self.ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         self.ARView.session.run(self.configuration)
-        // Do any additional setup after loading the view.
+        //TO-DO: Fix with guard let
+        currentCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        currentAltitude = (locationManager.location?.altitude)!
+        testCoordinate.latitude = currentCoordinates.latitude - testCoordinate.latitude
+        testCoordinate.longitude = currentCoordinates.longitude - testCoordinate.longitude
+        testAltitude = currentAltitude-testAltitude
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func add(_ sender: Any) {
         let node = SCNNode()
-        node.geometry = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+        node.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        node.position = SCNVector3(0.3, 0.3, 0.3)
+        node.position = SCNVector3(testCoordinate.latitude, -testAltitude, testCoordinate.longitude)
         self.ARView.scene.rootNode.addChildNode(node)
     }
     @IBAction func reset(_ sender: Any) {
