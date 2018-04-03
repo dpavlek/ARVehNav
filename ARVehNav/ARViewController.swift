@@ -19,6 +19,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var testAltitude = 102.0
     var currentCoordinates = CLLocationCoordinate2D()
     var currentAltitude = 0.0
+    var distanceLatLong:(Latitude:Double,Longitude:Double) = (0,0)
     
     @IBOutlet weak var ARView: ARSCNView!
     @IBOutlet weak var GPSLoc: UILabel!
@@ -39,8 +40,8 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         //TO-DO: Fix with guard let
         currentCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         currentAltitude = (locationManager.location?.altitude)!
-        testCoordinate.latitude = currentCoordinates.latitude - testCoordinate.latitude
-        testCoordinate.longitude = currentCoordinates.longitude - testCoordinate.longitude
+        distanceLatLong = testCoordinate.ConvertToMeters(latitudeTo: currentCoordinates.latitude, longitudeTo: currentCoordinates.longitude)
+        print(distanceLatLong)
         testAltitude = currentAltitude-testAltitude
     }
     
@@ -52,7 +53,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         let node = SCNNode()
         node.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        node.position = SCNVector3(testCoordinate.latitude, -testAltitude, testCoordinate.longitude)
+        node.position = SCNVector3(distanceLatLong.Latitude, 0, distanceLatLong.Longitude)
         self.ARView.scene.rootNode.addChildNode(node)
     }
     @IBAction func reset(_ sender: Any) {
@@ -70,7 +71,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("\(locValue.latitude) \(locValue.longitude)")
         DispatchQueue.main.async {
             self.GPSLoc?.text = "\(locValue.latitude) \(locValue.longitude)"
         }

@@ -16,6 +16,7 @@
 		1FB6566A205BFA4600732596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB65669205BFA4500732596 /* GoogleService-Info.plist */; };
 		1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566B205C1B9100732596 /* AddARViewController.swift */; };
 		1FB6566E205C1BB800732596 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566D205C1BB800732596 /* Item.swift */; };
+		1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */; };
 		3923C22F4A6EFDBE42B1C216 /* Pods_ARVehNav.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		1FB65669205BFA4500732596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FB6566B205C1B9100732596 /* AddARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARViewController.swift; sourceTree = "<group>"; };
 		1FB6566D205C1BB800732596 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinates+ConvertToMeters.swift"; sourceTree = "<group>"; };
 		4721F447FBA504CFE7417B35 /* Pods-ARVehNav.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.debug.xcconfig"; sourceTree = "<group>"; };
 		5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARVehNav.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6112D409478739BA6C8D00 /* Pods-ARVehNav.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.release.xcconfig"; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				1FB65669205BFA4500732596 /* GoogleService-Info.plist */,
 				1FB6566B205C1B9100732596 /* AddARViewController.swift */,
 				1FB6566D205C1BB800732596 /* Item.swift */,
+				1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */,
 			);
 			path = ARVehNav;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
+				1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */,
 				1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
