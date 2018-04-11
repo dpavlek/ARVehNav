@@ -15,11 +15,12 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation!
     
-    var testCoordinate = CLLocationCoordinate2D(latitude: 45.31232301758361, longitude: 18.405930981092297)
+    var testCoordinate = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
     var testAltitude = 102.0
     var currentCoordinates = CLLocationCoordinate2D()
     var currentAltitude = 0.0
-    var distanceLatLong:(Latitude:Double,Longitude:Double) = (0,0)
+    var distanceLatLong:Double = 0
+    var degreesCompass:Double = 0
     
     @IBOutlet weak var ARView: ARSCNView!
     @IBOutlet weak var GPSLoc: UILabel!
@@ -29,18 +30,30 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.locationManager.requestWhenInUseAuthorization()
+        
         if(CLLocationManager.locationServicesEnabled()){
             self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             self.locationManager.startUpdatingLocation()
             self.locationManager.delegate = self
         }
         
+        if (CLLocationManager.headingAvailable()) {
+            locationManager.headingFilter = 1
+            locationManager.startUpdatingHeading()
+            locationManager.delegate = self
+        }
+        
         self.ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+        configuration.worldAlignment = ARConfiguration.WorldAlignment.gravityAndHeading
         self.ARView.session.run(self.configuration)
+        getPosition()
         //TO-DO: Fix with guard let
+    }
+    
+    func getPosition(){
         currentCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         currentAltitude = (locationManager.location?.altitude)!
-        distanceLatLong = testCoordinate.ConvertToMeters(latitudeTo: currentCoordinates.latitude, longitudeTo: currentCoordinates.longitude)
+        distanceLatLong = testCoordinate.DistanceTo(latitudeTo: currentCoordinates.latitude, longitudeTo: currentCoordinates.longitude)
         print(distanceLatLong)
         testAltitude = currentAltitude-testAltitude
     }
@@ -50,10 +63,12 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func add(_ sender: Any) {
+        let distance = sqrt(pow(distanceLatLong, 2)/2)
+        print(distance)
         let node = SCNNode()
-        node.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        node.geometry = SCNBox(width: 1, height: 0.5, length: 1, chamferRadius: 0)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        node.position = SCNVector3(distanceLatLong.Latitude, 0, distanceLatLong.Longitude)
+        node.position = SCNVector3(distance, 0, -distance)
         self.ARView.scene.rootNode.addChildNode(node)
     }
     @IBAction func reset(_ sender: Any) {
@@ -67,6 +82,11 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             node.removeFromParentNode()
         }
         self.ARView.session.run(self.configuration, options: [.resetTracking, .removeExistingAnchors])
+        getPosition()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        degreesCompass = newHeading.magneticHeading
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
