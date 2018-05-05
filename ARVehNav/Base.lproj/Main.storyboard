@@ -24,7 +24,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Search item"/>
                                 <connections>
-                                    <segue destination="A2l-jL-QLo" kind="show" id="Rwb-Cf-DvG"/>
+                                    <segue destination="Czi-6C-YKF" kind="show" id="BGu-08-Ztp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAF-hU-Wb3">
@@ -112,22 +112,52 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N02-Fz-V7G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1711.2" y="164.16791604197903"/>
+            <point key="canvasLocation" x="2463" y="164"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="0r8-dR-7Dj">
             <objects>
-                <viewController id="Czi-6C-YKF" sceneMemberID="viewController">
+                <viewController id="Czi-6C-YKF" customClass="MapViewController" customModule="ARVehNav" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aJB-Qu-LHy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QBn-ep-ehk">
+                                <rect key="frame" x="0.0" y="64" width="375" height="350"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="350" id="2I4-lk-u5z"/>
+                                </constraints>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSE-VO-DCx">
+                                <rect key="frame" x="127.5" y="422" width="120" height="65"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="65" id="E4z-tH-GI6"/>
+                                    <constraint firstAttribute="width" constant="120" id="GIq-P0-F9H"/>
+                                </constraints>
+                                <state key="normal" title="Show"/>
+                                <connections>
+                                    <segue destination="A2l-jL-QLo" kind="show" identifier="ShowARViewSegue" id="PYn-tt-cwY"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lpM-6J-AqA" firstAttribute="trailing" secondItem="RSE-VO-DCx" secondAttribute="trailing" constant="127.5" id="91f-ta-4D7"/>
+                            <constraint firstItem="RSE-VO-DCx" firstAttribute="leading" secondItem="lpM-6J-AqA" secondAttribute="leading" constant="127.5" id="LMr-wT-iEp"/>
+                            <constraint firstItem="QBn-ep-ehk" firstAttribute="top" secondItem="lpM-6J-AqA" secondAttribute="top" id="NKl-9Q-pnm"/>
+                            <constraint firstItem="QBn-ep-ehk" firstAttribute="trailing" secondItem="lpM-6J-AqA" secondAttribute="trailing" id="e7y-Si-3U2"/>
+                            <constraint firstItem="RSE-VO-DCx" firstAttribute="top" secondItem="QBn-ep-ehk" secondAttribute="bottom" constant="8" id="uwc-8Z-ATs"/>
+                            <constraint firstItem="QBn-ep-ehk" firstAttribute="leading" secondItem="lpM-6J-AqA" secondAttribute="leading" id="zUH-Fs-0Py"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="lpM-6J-AqA"/>
                     </view>
+                    <connections>
+                        <outlet property="destinationMapView" destination="QBn-ep-ehk" id="PgW-av-xiQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dDH-9A-xuJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1724" y="875"/>
+            <point key="canvasLocation" x="1592.8" y="164.16791604197903"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="viP-U9-bDI">

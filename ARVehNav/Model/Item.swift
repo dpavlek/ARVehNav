@@ -10,8 +10,6 @@ import Foundation
 import CoreLocation
 
 struct Item{
-    let Name: String
-    let ID: String
     var Location: CLLocationCoordinate2D?
     
     mutating func setLocationFromFloat(latitude: Double, longitude: Double){

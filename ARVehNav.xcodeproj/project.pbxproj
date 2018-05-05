@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2A0CDC209876B0007356F3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CDB209876B0007356F3 /* Route.swift */; };
+		1F2A0CDE209879C2007356F3 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */; };
+		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
+		1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62EBB0209CA7A8008F3434 /* MapViewController.swift */; };
 		1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9699F12044345500D88EE0 /* AppDelegate.swift */; };
 		1F9699F42044345500D88EE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9699F32044345500D88EE0 /* ViewController.swift */; };
 		1F9699F72044345500D88EE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F9699F52044345500D88EE0 /* Main.storyboard */; };
@@ -21,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F2A0CDB209876B0007356F3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
+		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1F62EBB0209CA7A8008F3434 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		1F9699EE2044345500D88EE0 /* ARVehNav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARVehNav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F9699F12044345500D88EE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F9699F32044345500D88EE0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +58,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F2A0CDA2098764B007356F3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1FB6566D205C1BB800732596 /* Item.swift */,
+				1F2A0CDB209876B0007356F3 /* Route.swift */,
+				1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */,
+				1F2A0CE020987B0F007356F3 /* Constants.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1F2A0CDF20987A75007356F3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1F62EBAF209CA76C008F3434 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F9699F32044345500D88EE0 /* ViewController.swift */,
+				1F969A032044370900D88EE0 /* ARViewController.swift */,
+				1FB6566B205C1B9100732596 /* AddARViewController.swift */,
+				1F62EBB0209CA7A8008F3434 /* MapViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		1F9699E52044345400D88EE0 = {
 			isa = PBXGroup;
 			children = (
@@ -72,16 +110,14 @@
 			isa = PBXGroup;
 			children = (
 				1F9699F12044345500D88EE0 /* AppDelegate.swift */,
-				1F9699F32044345500D88EE0 /* ViewController.swift */,
-				1F969A032044370900D88EE0 /* ARViewController.swift */,
+				1F2A0CDA2098764B007356F3 /* Model */,
+				1F62EBAF209CA76C008F3434 /* Controllers */,
+				1F2A0CDF20987A75007356F3 /* Extensions */,
 				1F9699F52044345500D88EE0 /* Main.storyboard */,
 				1F9699F82044345500D88EE0 /* Assets.xcassets */,
 				1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */,
 				1F9699FD2044345500D88EE0 /* Info.plist */,
 				1FB65669205BFA4500732596 /* GoogleService-Info.plist */,
-				1FB6566B205C1B9100732596 /* AddARViewController.swift */,
-				1FB6566D205C1BB800732596 /* Item.swift */,
-				1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */,
 			);
 			path = ARVehNav;
 			sourceTree = "<group>";
@@ -133,7 +169,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Daniel Pavlekovic";
 				TargetAttributes = {
 					1F9699ED2044345500D88EE0 = {
@@ -194,6 +230,7 @@
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -217,6 +254,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -283,10 +321,14 @@
 			files = (
 				1FB6566E205C1BB800732596 /* Item.swift in Sources */,
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
+				1F2A0CDE209879C2007356F3 /* NetworkFetcher.swift in Sources */,
+				1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
 				1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */,
+				1F2A0CDC209876B0007356F3 /* Route.swift in Sources */,
 				1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */,
+				1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +368,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -333,6 +376,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -383,6 +427,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -390,6 +435,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
