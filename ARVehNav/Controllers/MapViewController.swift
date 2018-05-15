@@ -22,6 +22,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         gestureRecognizer.delaysTouchesBegan = true
 
         destinationMapView.delegate = self
+        destinationMapView.showsScale = true
+        destinationMapView.showsCompass = true
+        destinationMapView.showsUserLocation = true
         title = "Set Destination"
         gestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         destinationMapView.addGestureRecognizer(gestureRecognizer)
