@@ -11,7 +11,7 @@ import CoreLocation
 
 struct Constants {
 
-    static let osrmCore = "http://router.project-osrm.org/route/v1/driving/"
+    static let osrmCore = "https://router.project-osrm.org/route/v1/driving/"
 
     static func osrmUrl(origin: CLLocationCoordinate2D, goal: CLLocationCoordinate2D) -> URL {
         let tempurl = osrmCore + "\(origin.longitude),\(origin.latitude);\(goal.longitude),\(goal.latitude)?steps=true&overview=false"

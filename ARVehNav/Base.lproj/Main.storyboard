@@ -134,6 +134,7 @@
                                     <constraint firstAttribute="height" constant="65" id="E4z-tH-GI6"/>
                                     <constraint firstAttribute="width" constant="120" id="GIq-P0-F9H"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Show"/>
                                 <connections>
                                     <segue destination="A2l-jL-QLo" kind="show" identifier="ShowARViewSegue" id="PYn-tt-cwY"/>

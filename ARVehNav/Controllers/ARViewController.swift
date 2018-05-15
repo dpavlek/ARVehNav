@@ -19,8 +19,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var testAltitude = 102.0
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
-    var distanceLat: Double = 0
-    var distanceLong: Double = 0
     var degreesCompass: Double = 0
     
     private let jsonFetcher = NFetcher()
@@ -45,7 +43,8 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingHeading()
             locationManager.delegate = self
         }
-        getPosition()
+        currentCoordinates = getPosition().Location
+        currentAltitude = getPosition().Altitude
         ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         configuration.worldAlignment = ARConfiguration.WorldAlignment.gravityAndHeading
         ARView.session.run(configuration)
@@ -54,28 +53,30 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             jsonFetcher.fetchJSON(fromURL: Constants.osrmUrl(origin: curCoord, goal: destinationCoordinates)) { jsonData, _ in
                 if let routeData = jsonData {
                     let route = Route(json: routeData)
-                    print(route!)
+                    print(routeData)
                 }
             }
         }
-        getDistance()
+        
         // TO-DO: Fix with guard let
     }
     
-    func getPosition() {
-        currentCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        currentAltitude = (locationManager.location?.altitude)!
+    func getPosition() -> (Location: CLLocationCoordinate2D, Altitude: Double) {
+        let curCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        let altitude = (locationManager.location?.altitude)!
+        return (curCoordinates, altitude)
     }
     
-    func getDistance() {
-        if let nowCoordinates = currentCoordinates {
-            distanceLat = destinationCoordinates.DistanceTo(latitudeTo: destinationCoordinates.latitude, longitudeTo: nowCoordinates.longitude)
-            distanceLong = destinationCoordinates.DistanceTo(latitudeTo: nowCoordinates.latitude, longitudeTo: destinationCoordinates.longitude)
-            print(distanceLat, distanceLong)
-        }
-        if let cAltitude = currentAltitude {
-            testAltitude = cAltitude - testAltitude
-        }
+    func getDistance(currentLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> (lat: Double, long: Double) {
+        var distance: (lat: Double, long: Double)
+        distance.long = destinationLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: currentLocation.longitude)
+        distance.lat = destinationLocation.DistanceTo(latitudeTo: currentLocation.latitude, longitudeTo: destinationLocation.longitude)
+        print(distance.lat, distance.long)
+        return distance
+    }
+    
+    func altitudeDiff(currentAltitude: Double, destAltitude: Double) -> Double {
+        return destAltitude - currentAltitude
     }
     
     override func didReceiveMemoryWarning() {
@@ -83,10 +84,26 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func add(_ sender: Any) {
+        addNodeToScene(destinationLoc: destinationCoordinates, destinationAltitude: testAltitude)
+    }
+    
+    func addNodeToScene(destinationLoc: CLLocationCoordinate2D, destinationAltitude: Double) {
         let node = SCNNode()
         node.geometry = SCNBox(width: 1, height: 0.5, length: 1, chamferRadius: 0)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        node.position = SCNVector3(distanceLat, 0, -distanceLong)
+        if let cLoc = currentCoordinates {
+            var distance = getDistance(currentLocation: cLoc, destinationLocation: destinationCoordinates)
+            if destinationLoc.latitude > cLoc.latitude {
+                distance.lat = -distance.lat
+            }
+            if destinationLoc.longitude < cLoc.longitude{
+                distance.long = -distance.long
+            }
+            if let currAltitude = currentAltitude{
+                let altitude = altitudeDiff(currentAltitude: currAltitude, destAltitude: testAltitude)
+                node.position = SCNVector3(distance.long, altitude, distance.lat)
+            }
+        }
         ARView.scene.rootNode.addChildNode(node)
     }
     
