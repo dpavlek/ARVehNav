@@ -11,6 +11,7 @@ import ARKit
 import CoreLocation
 import MapKit
 import SwiftyJSON
+import Alamofire
 
 class ARViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -18,13 +19,11 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var currentLocation: CLLocation?
     
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
-    var testAltitude = 102.0
+    var testAltitude = 100.0
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
     var degreesCompass: Double = 0
     var routeSteps: [MKRouteStep]?
-    
-    private let jsonFetcher = NFetcher()
     
     @IBOutlet weak var ARView: ARSCNView!
     @IBOutlet weak var GPSLoc: UILabel!
@@ -98,18 +97,22 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         return currentLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: destinationLocation.longitude)
     }
     
-    func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D) -> Double {
-        var altitude = 0.0
-        jsonFetcher.fetchJSON(fromURL: Constants.getElevation(coordinates: destination)) { json, _ in
-            if let json = json {
-                print(json)
-                let jason = JSON(json)
-                for (_, result) in jason["results"] {
-                    altitude = result["elevation"].doubleValue
-                }
+    func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
+        var altitude = 100.0
+        Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
+            switch response.result {
+                
+            case .success(let data):
+                let response = JSON(data)
+                altitude = response["elevationProfile"]["height"].doubleValue
+                onCompletion(altitude)
+                
+            case .failure(let error):
+                print(error)
+                onCompletion(altitude)
             }
+            
         }
-        return altitude
     }
     
     func getAltitudeDiff(currentAltitude: Double, destinationAltitude: Double) -> Double {
@@ -121,6 +124,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func add(_ sender: Any) {
+        var midStep = 0
         if let steps = routeSteps {
             for (index, step) in steps.enumerated() {
                 if index < steps.endIndex - 1 {
@@ -130,7 +134,14 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                     let diffLong = pointB.longitude - pointA.longitude
                     
                     let distanceAirAB = getAirDistance(currentLocation: pointA, destinationLocation: pointB)
-                    let numPoints = Int(distanceAirAB / 10)
+                    var numPoints: Int
+                    if distanceAirAB < 1000 {
+                        numPoints = Int(distanceAirAB / 10)
+                    } else if distanceAirAB > 1000 && distanceAirAB < 5000 {
+                        numPoints = Int(distanceAirAB / 100)
+                    } else {
+                        numPoints = Int(distanceAirAB / 200)
+                    }
                     
                     let intervalLat = diffLat / (Double(numPoints) + 1)
                     let intervalLong = diffLong / (Double(numPoints) + 1)
@@ -138,8 +149,11 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                     for index in 1...numPoints {
                         let point = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
                         if let currentAltitude = currentAltitude {
-                            let elevation = getAltitude(currentAltitude: currentAltitude, destination: point)
-                            addNodeToScene(destinationLoc: point, destinationAltitude: elevation)
+                            getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                                midStep += 1
+                                self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
+                                self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
+                            }
                         }
                     }
                 }
@@ -189,9 +203,5 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         DispatchQueue.main.async {
             self.GPSLoc?.text = "\(locValue.latitude) \(locValue.longitude)"
         }
-    }
-    
-    func loadRouteData(url: URL) {
-        
     }
 }

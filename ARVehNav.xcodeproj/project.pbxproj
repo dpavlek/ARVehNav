@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1F2A0CDC209876B0007356F3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CDB209876B0007356F3 /* Route.swift */; };
-		1F2A0CDE209879C2007356F3 /* NetworkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */; };
 		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
 		1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62EBB0209CA7A8008F3434 /* MapViewController.swift */; };
 		1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9699F12044345500D88EE0 /* AppDelegate.swift */; };
@@ -26,7 +25,6 @@
 
 /* Begin PBXFileReference section */
 		1F2A0CDB209876B0007356F3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFetcher.swift; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1F62EBB0209CA7A8008F3434 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		1F9699EE2044345500D88EE0 /* ARVehNav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARVehNav.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +61,6 @@
 			children = (
 				1FB6566D205C1BB800732596 /* Item.swift */,
 				1F2A0CDB209876B0007356F3 /* Route.swift */,
-				1F2A0CDD209879C2007356F3 /* NetworkFetcher.swift */,
 				1F2A0CE020987B0F007356F3 /* Constants.swift */,
 			);
 			path = Model;
@@ -219,6 +216,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ARCL/ARCL.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -243,6 +241,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -276,18 +275,25 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -321,7 +327,6 @@
 			files = (
 				1FB6566E205C1BB800732596 /* Item.swift in Sources */,
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
-				1F2A0CDE209879C2007356F3 /* NetworkFetcher.swift in Sources */,
 				1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
