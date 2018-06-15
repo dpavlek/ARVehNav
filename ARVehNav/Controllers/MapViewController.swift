@@ -18,14 +18,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleTap(gestureRecognizer:)))
-        gestureRecognizer.minimumPressDuration = 1.0
+        gestureRecognizer.minimumPressDuration = 0.5
         gestureRecognizer.delaysTouchesBegan = true
 
         destinationMapView.delegate = self
         destinationMapView.showsScale = true
         destinationMapView.showsCompass = true
         destinationMapView.showsUserLocation = true
-        title = "Set Destination"
+        title = "Odaberite odredište"
         gestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         destinationMapView.addGestureRecognizer(gestureRecognizer)
     }

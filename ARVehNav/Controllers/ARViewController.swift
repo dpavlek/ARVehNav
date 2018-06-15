@@ -17,12 +17,12 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
     var testAltitude = 100.0
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
     var degreesCompass: Double = 0
+    var rotationByYAxis: Float = 0.0
     var routeSteps: [MKRouteStep]?
     
     @IBOutlet weak var ARView: ARSCNView!
@@ -75,6 +75,8 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                 for step in route.steps {
                     print("Step: \(step.polyline.coordinate)")
                 }
+                self?.restartSession()
+                self?.addAllNodesToScene()
             })
         }
     }
@@ -98,7 +100,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-        var altitude = 100.0
+        var altitude = currentAltitude - 2
         Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
             switch response.result {
                 
@@ -124,7 +126,10 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func add(_ sender: Any) {
-        var midStep = 0
+        addAllNodesToScene()
+    }
+    
+    func addAllNodesToScene() {
         if let steps = routeSteps {
             for (index, step) in steps.enumerated() {
                 if index < steps.endIndex - 1 {
@@ -146,16 +151,28 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                     let intervalLat = diffLat / (Double(numPoints) + 1)
                     let intervalLong = diffLong / (Double(numPoints) + 1)
                     
-                    for index in 1...numPoints {
-                        let point = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
+                    if numPoints == 0 {
                         if let currentAltitude = currentAltitude {
-                            getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
-                                midStep += 1
-                                self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
-                                self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
+                            let point = CLLocationCoordinate2D(latitude: pointA.latitude, longitude: pointA.longitude)
+                            addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 1)
+                            /* getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                             self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
+                             self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
+                             } */
+                        }
+                    } else {
+                        for index in 1...numPoints {
+                            let point = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
+                            if let currentAltitude = currentAltitude {
+                                addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 1)
+                                /* getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                                 self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
+                                 self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
+                                 } */
                             }
                         }
                     }
+                    GPSLoc.text = "Gotovo"
                 }
             }
         }
@@ -163,7 +180,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     func addNodeToScene(destinationLoc: CLLocationCoordinate2D, destinationAltitude: Double) {
         let node = SCNNode()
-        node.geometry = SCNCapsule(capRadius: 1, height: 0.5)
+        node.geometry = SCNCapsule(capRadius: 2, height: 0.5)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
         if let cLoc = currentCoordinates {
             var distance = getDistance(currentLocation: cLoc, destinationLocation: destinationLoc)
@@ -183,6 +200,8 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func reset(_ sender: Any) {
         restartSession()
+        ARView.scene.rootNode.eulerAngles.y = 0
+        addAllNodesToScene()
     }
     
     func restartSession() {
@@ -191,7 +210,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             node.removeFromParentNode()
         }
         ARView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        getPosition()
+        // getPosition()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
@@ -203,5 +222,18 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         DispatchQueue.main.async {
             self.GPSLoc?.text = "\(locValue.latitude) \(locValue.longitude)"
         }
+    }
+    
+    @IBAction func changeEulerLeft(_ sender: Any) {
+        ARView.scene.rootNode.eulerAngles.y += Float(1) * .pi / 180
+        /* restartSession()
+         addAllNodesToScene() */
+        
+    }
+    
+    @IBAction func changeEulerRight(_ sender: Any) {
+        ARView.scene.rootNode.eulerAngles.y -= Float(1) * .pi / 180
+        /* restartSession()
+         addAllNodesToScene() */
     }
 }

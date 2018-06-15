@@ -24,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F0F7EB020CFE99C0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
+		1F0F7EB120CFE99F0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		1F2A0CDB209876B0007356F3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1F62EBB0209CA7A8008F3434 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1F9699F62044345500D88EE0 /* Base */,
+				1F0F7EB020CFE99C0024B750 /* hr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1F9699FB2044345500D88EE0 /* Base */,
+				1F0F7EB120CFE99F0024B750 /* hr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -363,6 +367,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -422,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

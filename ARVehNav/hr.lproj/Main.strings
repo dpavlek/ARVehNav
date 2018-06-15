@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Reset"; ObjectID = "KS5-bq-uQG"; */
+"KS5-bq-uQG.normalTitle" = "Reset";
+
+/* Class = "UIButton"; normalTitle = "Show"; ObjectID = "RSE-VO-DCx"; */
+"RSE-VO-DCx.normalTitle" = "Prikaži";
+
+/* Class = "UIButton"; normalTitle = "Add Item"; ObjectID = "YAF-hU-Wb3"; */
+"YAF-hU-Wb3.normalTitle" = "Dodaj Objekt";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "iNM-1k-44Z"; */
+"iNM-1k-44Z.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Choose location"; ObjectID = "oxA-bx-Nu9"; */
+"oxA-bx-Nu9.normalTitle" = "Odaberi Lokaciju";
+
+/* Class = "UIButton"; normalTitle = "Add"; ObjectID = "wYd-FV-MOG"; */
+"wYd-FV-MOG.normalTitle" = "Dodaj";
