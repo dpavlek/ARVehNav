@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>GPS is needed to determine your location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>GPS is needed to determine your location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>GPS is needed to determine your location</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera is needed to display ARKit content</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -24,10 +16,37 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.364961060184-2unu7erl2mdg6aci691afqoib8gfdfmp</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dpavlekovic.ARVehNav</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is needed to display ARKit content</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>GPS is needed to determine your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>GPS is needed to determine your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>GPS is needed to determine your location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

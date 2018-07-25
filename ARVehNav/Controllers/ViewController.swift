@@ -8,20 +8,30 @@
 
 import UIKit
 import Firebase
-import RealmSwift
+import GoogleSignIn
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var signBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let firebaseAuth = Auth.auth()
+        if (firebaseAuth.currentUser) == nil {
+            signBtn.setTitle("Sign In With Google", for: .normal)
+        } else {
+            signBtn.setTitle("Sign Out", for: .normal)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
 }
-

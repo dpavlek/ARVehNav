@@ -18,11 +18,9 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
-    var testAltitude = 100.0
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
     var degreesCompass: Double = 0
-    var rotationByYAxis: Float = 0.0
     var routeSteps: [MKRouteStep]?
     
     @IBOutlet weak var ARView: ARSCNView!
@@ -47,11 +45,9 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         }
         currentCoordinates = getPosition().Location
         currentAltitude = getPosition().Altitude
-        ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         configuration.worldAlignment = ARConfiguration.WorldAlignment.gravityAndHeading
         ARView.session.run(configuration)
         if let curCoord = currentCoordinates {
-            print(Constants.osrmUrl(origin: curCoord, goal: destinationCoordinates))
             let startPlace = MKPlacemark(coordinate: curCoord)
             let destPlace = MKPlacemark(coordinate: destinationCoordinates)
             let startItem = MKMapItem(placemark: startPlace)
@@ -100,7 +96,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-        var altitude = currentAltitude - 2
+        var altitude = currentAltitude - 5
         Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
             switch response.result {
                 
@@ -154,21 +150,21 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                     if numPoints == 0 {
                         if let currentAltitude = currentAltitude {
                             let point = CLLocationCoordinate2D(latitude: pointA.latitude, longitude: pointA.longitude)
-                            addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 1)
-                            /* getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                            addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 2)
+                             /*getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
                              self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
                              self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
-                             } */
+                             }*/
                         }
                     } else {
                         for index in 1...numPoints {
                             let point = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
                             if let currentAltitude = currentAltitude {
-                                addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 1)
-                                /* getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                                addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 2)
+                                 /*getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
                                  self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
                                  self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
-                                 } */
+                                 }*/
                             }
                         }
                     }
@@ -180,8 +176,8 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     func addNodeToScene(destinationLoc: CLLocationCoordinate2D, destinationAltitude: Double) {
         let node = SCNNode()
-        node.geometry = SCNCapsule(capRadius: 2, height: 0.5)
-        node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+        node.geometry = SCNBox(width: 4, height: 0.2, length: 4, chamferRadius: 0.1)
+        node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         if let cLoc = currentCoordinates {
             var distance = getDistance(currentLocation: cLoc, destinationLocation: destinationLoc)
             if destinationLoc.latitude > cLoc.latitude {
@@ -191,7 +187,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                 distance.long = -distance.long
             }
             if let currAltitude = currentAltitude {
-                let altitude = getAltitudeDiff(currentAltitude: currAltitude, destinationAltitude: testAltitude)
+                let altitude = getAltitudeDiff(currentAltitude: currAltitude, destinationAltitude: destinationAltitude)
                 node.position = SCNVector3(distance.long, altitude, distance.lat)
             }
         }
@@ -210,7 +206,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             node.removeFromParentNode()
         }
         ARView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        // getPosition()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
@@ -226,14 +221,9 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func changeEulerLeft(_ sender: Any) {
         ARView.scene.rootNode.eulerAngles.y += Float(1) * .pi / 180
-        /* restartSession()
-         addAllNodesToScene() */
-        
     }
     
     @IBAction func changeEulerRight(_ sender: Any) {
         ARView.scene.rootNode.eulerAngles.y -= Float(1) * .pi / 180
-        /* restartSession()
-         addAllNodesToScene() */
     }
 }

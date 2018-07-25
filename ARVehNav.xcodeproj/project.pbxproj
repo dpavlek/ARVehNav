@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F17DA2A210627A400B15A4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F17DA29210627A400B15A4C /* GoogleService-Info.plist */; };
 		1F2A0CDC209876B0007356F3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CDB209876B0007356F3 /* Route.swift */; };
 		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
+		1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */; };
+		1F3FA5DA2108EC17000204F8 /* HelpingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */; };
 		1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62EBB0209CA7A8008F3434 /* MapViewController.swift */; };
 		1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9699F12044345500D88EE0 /* AppDelegate.swift */; };
 		1F9699F42044345500D88EE0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9699F32044345500D88EE0 /* ViewController.swift */; };
@@ -16,7 +19,6 @@
 		1F9699F92044345500D88EE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F9699F82044345500D88EE0 /* Assets.xcassets */; };
 		1F9699FC2044345500D88EE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */; };
 		1F969A042044370900D88EE0 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F969A032044370900D88EE0 /* ARViewController.swift */; };
-		1FB6566A205BFA4600732596 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB65669205BFA4500732596 /* GoogleService-Info.plist */; };
 		1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566B205C1B9100732596 /* AddARViewController.swift */; };
 		1FB6566E205C1BB800732596 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566D205C1BB800732596 /* Item.swift */; };
 		1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */; };
@@ -26,8 +28,11 @@
 /* Begin PBXFileReference section */
 		1F0F7EB020CFE99C0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
 		1F0F7EB120CFE99F0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		1F17DA29210627A400B15A4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F2A0CDB209876B0007356F3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpingViewController.swift; sourceTree = "<group>"; };
 		1F62EBB0209CA7A8008F3434 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		1F9699EE2044345500D88EE0 /* ARVehNav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARVehNav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F9699F12044345500D88EE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +42,6 @@
 		1F9699FB2044345500D88EE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F9699FD2044345500D88EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F969A032044370900D88EE0 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
-		1FB65669205BFA4500732596 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FB6566B205C1B9100732596 /* AddARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARViewController.swift; sourceTree = "<group>"; };
 		1FB6566D205C1BB800732596 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinates+ConvertToMeters.swift"; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 				1F969A032044370900D88EE0 /* ARViewController.swift */,
 				1FB6566B205C1B9100732596 /* AddARViewController.swift */,
 				1F62EBB0209CA7A8008F3434 /* MapViewController.swift */,
+				1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -113,10 +118,11 @@
 				1F62EBAF209CA76C008F3434 /* Controllers */,
 				1F2A0CDF20987A75007356F3 /* Extensions */,
 				1F9699F52044345500D88EE0 /* Main.storyboard */,
+				1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */,
 				1F9699F82044345500D88EE0 /* Assets.xcassets */,
 				1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */,
 				1F9699FD2044345500D88EE0 /* Info.plist */,
-				1FB65669205BFA4500732596 /* GoogleService-Info.plist */,
+				1F17DA29210627A400B15A4C /* GoogleService-Info.plist */,
 			);
 			path = ARVehNav;
 			sourceTree = "<group>";
@@ -201,7 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F9699FC2044345500D88EE0 /* LaunchScreen.storyboard in Resources */,
-				1FB6566A205BFA4600732596 /* GoogleService-Info.plist in Resources */,
+				1F17DA2A210627A400B15A4C /* GoogleService-Info.plist in Resources */,
 				1F9699F92044345500D88EE0 /* Assets.xcassets in Resources */,
 				1F9699F72044345500D88EE0 /* Main.storyboard in Resources */,
 			);
@@ -284,7 +290,6 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -295,7 +300,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -328,6 +332,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB6566E205C1BB800732596 /* Item.swift in Sources */,
+				1F3FA5DA2108EC17000204F8 /* HelpingViewController.swift in Sources */,
+				1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */,
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
 				1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
