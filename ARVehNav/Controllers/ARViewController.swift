@@ -15,12 +15,12 @@ import Alamofire
 
 class ARViewController: UIViewController, CLLocationManagerDelegate {
     
-    var locationManager = CLLocationManager()
+    var locationManager = LocationManager()
     var currentLocation: CLLocation?
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
-    var degreesCompass: Double = 0
+    var itemAltitude: Double? = nil
     var routeSteps: [MKRouteStep]?
     
     @IBOutlet weak var ARView: ARSCNView!
@@ -30,21 +30,9 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.requestWhenInUseAuthorization()
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-            locationManager.startUpdatingLocation()
-            locationManager.delegate = self
-        }
-        
-        if CLLocationManager.headingAvailable() {
-            locationManager.headingFilter = 1
-            locationManager.startUpdatingHeading()
-            locationManager.delegate = self
-        }
-        currentCoordinates = getPosition().Location
-        currentAltitude = getPosition().Altitude
+        currentCoordinates = locationManager.getPosition().Location
+        currentAltitude = locationManager.getPosition().Altitude
         configuration.worldAlignment = ARConfiguration.WorldAlignment.gravityAndHeading
         ARView.session.run(configuration)
         if let curCoord = currentCoordinates {
@@ -77,50 +65,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func getPosition() -> (Location: CLLocationCoordinate2D, Altitude: Double) {
-        let curCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        let altitude = (locationManager.location?.altitude)!
-        return (curCoordinates, altitude)
-    }
-    
-    func getDistance(currentLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> (lat: Double, long: Double) {
-        var distance: (lat: Double, long: Double)
-        distance.long = destinationLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: currentLocation.longitude)
-        distance.lat = destinationLocation.DistanceTo(latitudeTo: currentLocation.latitude, longitudeTo: destinationLocation.longitude)
-        print(distance.lat, distance.long)
-        return distance
-    }
-    
-    func getAirDistance(currentLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> Double {
-        return currentLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: destinationLocation.longitude)
-    }
-    
-    func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-        var altitude = currentAltitude - 5
-        Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
-            switch response.result {
-                
-            case .success(let data):
-                let response = JSON(data)
-                altitude = response["elevationProfile"]["height"].doubleValue
-                onCompletion(altitude)
-                
-            case .failure(let error):
-                print(error)
-                onCompletion(altitude)
-            }
-            
-        }
-    }
-    
-    func getAltitudeDiff(currentAltitude: Double, destinationAltitude: Double) -> Double {
-        return destinationAltitude - currentAltitude
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     @IBAction func add(_ sender: Any) {
         addAllNodesToScene()
     }
@@ -134,7 +78,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                     let diffLat = pointB.latitude - pointA.latitude
                     let diffLong = pointB.longitude - pointA.longitude
                     
-                    let distanceAirAB = getAirDistance(currentLocation: pointA, destinationLocation: pointB)
+                    let distanceAirAB = locationManager.getAirDistance(currentLocation: pointA, destinationLocation: pointB)
                     var numPoints: Int
                     if distanceAirAB < 1000 {
                         numPoints = Int(distanceAirAB / 10)
@@ -151,20 +95,20 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                         if let currentAltitude = currentAltitude {
                             let point = CLLocationCoordinate2D(latitude: pointA.latitude, longitude: pointA.longitude)
                             addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 2)
-                             /*getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                            /* locationManager.getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
                              self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
                              self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
-                             }*/
+                             } */
                         }
                     } else {
                         for index in 1...numPoints {
                             let point = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
                             if let currentAltitude = currentAltitude {
                                 addNodeToScene(destinationLoc: point, destinationAltitude: currentAltitude - 2)
-                                 /*getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
+                                /* locationManager.getAltitude(currentAltitude: currentAltitude, destination: point) { [weak self] altitude in
                                  self?.GPSLoc.text = "Loading: \(index) / \(numPoints)"
                                  self?.addNodeToScene(destinationLoc: point, destinationAltitude: altitude)
-                                 }*/
+                                 } */
                             }
                         }
                     }
@@ -179,7 +123,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
         node.geometry = SCNBox(width: 4, height: 0.2, length: 4, chamferRadius: 0.1)
         node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         if let cLoc = currentCoordinates {
-            var distance = getDistance(currentLocation: cLoc, destinationLocation: destinationLoc)
+            var distance = locationManager.getDistance(currentLocation: cLoc, destinationLocation: destinationLoc)
             if destinationLoc.latitude > cLoc.latitude {
                 distance.lat = -distance.lat
             }
@@ -187,7 +131,7 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
                 distance.long = -distance.long
             }
             if let currAltitude = currentAltitude {
-                let altitude = getAltitudeDiff(currentAltitude: currAltitude, destinationAltitude: destinationAltitude)
+                let altitude = locationManager.getAltitudeDiff(currentAltitude: currAltitude, destinationAltitude: destinationAltitude)
                 node.position = SCNVector3(distance.long, altitude, distance.lat)
             }
         }
@@ -206,17 +150,6 @@ class ARViewController: UIViewController, CLLocationManagerDelegate {
             node.removeFromParentNode()
         }
         ARView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        degreesCompass = newHeading.magneticHeading
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        DispatchQueue.main.async {
-            self.GPSLoc?.text = "\(locValue.latitude) \(locValue.longitude)"
-        }
     }
     
     @IBAction func changeEulerLeft(_ sender: Any) {

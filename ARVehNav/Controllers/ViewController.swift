@@ -13,6 +13,8 @@ import GoogleSignIn
 class ViewController: UIViewController {
     
     @IBOutlet weak var signBtn: UIButton!
+    @IBOutlet weak var itemsBtn: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +26,10 @@ class ViewController: UIViewController {
         let firebaseAuth = Auth.auth()
         if (firebaseAuth.currentUser) == nil {
             signBtn.setTitle("Sign In With Google", for: .normal)
+            itemsBtn.isEnabled = false
         } else {
             signBtn.setTitle("Sign Out", for: .normal)
+            itemsBtn.isEnabled = true
         }
     }
     

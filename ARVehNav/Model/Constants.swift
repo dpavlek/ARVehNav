@@ -8,11 +8,17 @@
 
 import Foundation
 import CoreLocation
+import Firebase
 
 struct Constants {
 
     static let osrmCore = "https://router.project-osrm.org/route/v1/driving/"
     static let elevationURL = "https://open.mapquestapi.com/elevation/v1/profile?key=fmbWHqXFXSOKUyC9Lst1apAEGqGkyJUS&shapeFormat=raw&latLngCollection="
+    
+    struct Refs{
+        static let databaseRoot = Database.database().reference()
+        static let databaseItems = databaseRoot.child("items")
+    }
 
     static func osrmUrl(origin: CLLocationCoordinate2D, goal: CLLocationCoordinate2D) -> URL {
         let tempurl = osrmCore + "\(origin.longitude),\(origin.latitude);\(goal.longitude),\(goal.latitude)?steps=true&overview=false"

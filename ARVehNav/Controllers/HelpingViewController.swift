@@ -26,7 +26,9 @@ class HelpingViewController: UIViewController, GIDSignInUIDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        dismiss(animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
