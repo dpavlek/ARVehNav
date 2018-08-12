@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1F17DA2A210627A400B15A4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F17DA29210627A400B15A4C /* GoogleService-Info.plist */; };
 		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
+		1F2B2B7721181D5500E85D59 /* MKMultiPoint+Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */; };
 		1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */; };
 		1F3FA5DA2108EC17000204F8 /* HelpingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */; };
 		1F3FA5DC210A1CFE000204F8 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5DB210A1CFE000204F8 /* ItemsTableViewController.swift */; };
@@ -25,6 +26,7 @@
 		1FFD9B502110CB5A0053C567 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B4F2110CB5A0053C567 /* ItemTableViewCell.swift */; };
 		1FFD9B522110D2080053C567 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B512110D2080053C567 /* AddItemViewController.swift */; };
 		1FFD9B542110D3CF0053C567 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B532110D3CF0053C567 /* LocationManager.swift */; };
+		1FFD9B56211385CE0053C567 /* Speed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B55211385CE0053C567 /* Speed.swift */; };
 		3923C22F4A6EFDBE42B1C216 /* Pods_ARVehNav.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +35,7 @@
 		1F0F7EB120CFE99F0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		1F17DA29210627A400B15A4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMultiPoint+Coordinates.swift"; sourceTree = "<group>"; };
 		1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpingViewController.swift; sourceTree = "<group>"; };
 		1F3FA5DB210A1CFE000204F8 /* ItemsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		1FFD9B4F2110CB5A0053C567 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		1FFD9B512110D2080053C567 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		1FFD9B532110D3CF0053C567 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1FFD9B55211385CE0053C567 /* Speed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speed.swift; sourceTree = "<group>"; };
 		4721F447FBA504CFE7417B35 /* Pods-ARVehNav.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.debug.xcconfig"; sourceTree = "<group>"; };
 		5B59263CE3E928790BB32AB5 /* Pods_ARVehNav.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARVehNav.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6112D409478739BA6C8D00 /* Pods-ARVehNav.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARVehNav.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARVehNav/Pods-ARVehNav.release.xcconfig"; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 				1FB6566D205C1BB800732596 /* Item.swift */,
 				1F2A0CE020987B0F007356F3 /* Constants.swift */,
 				1FFD9B532110D3CF0053C567 /* LocationManager.swift */,
+				1FFD9B55211385CE0053C567 /* Speed.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -82,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */,
+				1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -241,10 +247,10 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
@@ -266,10 +272,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
@@ -343,6 +349,7 @@
 				1FB6566E205C1BB800732596 /* Item.swift in Sources */,
 				1F3FA5DA2108EC17000204F8 /* HelpingViewController.swift in Sources */,
 				1F3FA5DC210A1CFE000204F8 /* ItemsTableViewController.swift in Sources */,
+				1FFD9B56211385CE0053C567 /* Speed.swift in Sources */,
 				1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */,
 				1FFD9B502110CB5A0053C567 /* ItemTableViewCell.swift in Sources */,
 				1FFD9B522110D2080053C567 /* AddItemViewController.swift in Sources */,
@@ -351,6 +358,7 @@
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
 				1FFD9B542110D3CF0053C567 /* LocationManager.swift in Sources */,
+				1F2B2B7721181D5500E85D59 /* MKMultiPoint+Coordinates.swift in Sources */,
 				1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */,
 				1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */,
 				1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */,
