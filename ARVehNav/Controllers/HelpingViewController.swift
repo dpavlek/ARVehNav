@@ -19,11 +19,11 @@ class HelpingViewController: UIViewController, GIDSignInUIDelegate {
         let firebaseAuth = Auth.auth()
         if(firebaseAuth.currentUser == nil){
             signIn()
-            signInLabel.text = "You have successfully signed in!"
+            signInLabel.text = NSLocalizedString("signedIn", comment: "Signed In!")
         }
         else{
+            signInLabel.text = NSLocalizedString("signedOut", comment: "Signed Out")
             signOut()
-            signInLabel.text = "You have signed out!"
         }
         // Do any additional setup after loading the view.
     }

@@ -25,10 +25,10 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let firebaseAuth = Auth.auth()
         if (firebaseAuth.currentUser) == nil {
-            signBtn.setTitle("Sign In With Google", for: .normal)
+            signBtn.setTitle(NSLocalizedString("signIn", comment: "Sign In"), for: .normal)
             itemsBtn.isEnabled = false
         } else {
-            signBtn.setTitle("Sign Out", for: .normal)
+            signBtn.setTitle(NSLocalizedString("signOut", comment: "Sign Out"), for: .normal)
             itemsBtn.isEnabled = true
         }
     }

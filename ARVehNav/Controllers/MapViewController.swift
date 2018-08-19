@@ -42,7 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         let searchBar = resultSearchController!.searchBar
         searchBar.sizeToFit()
-        searchBar.placeholder = "Tražite mjesta"
+        searchBar.placeholder = NSLocalizedString("searchPlaces", comment: "Search for places")
         navigationItem.titleView = resultSearchController?.searchBar
         
         resultSearchController?.hidesNavigationBarDuringPresentation = false

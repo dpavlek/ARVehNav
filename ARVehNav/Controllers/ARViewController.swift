@@ -20,7 +20,6 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
     var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
-    // var routePoints: [CLLocationCoordinate2D]?
     var routeSteps = [MKRouteStep]()
     var routeStepsCount: Int = 0
     var passedSteps = [MKRouteStep]()
@@ -31,6 +30,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     var sceneLocationView = SceneLocationView()
     var routeManager: RouteManager?
     var lastNode: LocationNode?
+    let viewModel = ARViewControllerModel()
     private var nextStep = 0
     
     @IBOutlet weak var GPSLoc: UILabel!
@@ -44,49 +44,18 @@ class ARViewController: UIViewController, ARSessionDelegate {
         currentCoordinates = LocationManager.shared.getPosition().Location
         currentAltitude = LocationManager.shared.getPosition().Altitude
         
-        GPSLoc.text = "Loading..."
+        GPSLoc.text = NSLocalizedString("loading", comment: "Loading...")
         
         sceneLocationView.session.delegate = self
         speedTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(changeColorToSpeed), userInfo: nil, repeats: true)
         
-        getRoute { [weak self] route in
-            self?.routeSteps = route.steps
-            self?.routeManager = RouteManager(forRoute: route)
-            self?.addARInstructions()
-            self?.addAllNodesToScene()
-        }
+        restartSession()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         sceneLocationView.frame = view.bounds
         view.sendSubview(toBack: sceneLocationView)
-    }
-    
-    func getRoute(onCompletion: @escaping (MKRoute) -> Void) {
-        if let curCoord = currentCoordinates {
-            let startPlace = MKPlacemark(coordinate: curCoord)
-            let destPlace = MKPlacemark(coordinate: destinationCoordinates)
-            let startItem = MKMapItem(placemark: startPlace)
-            let destItem = MKMapItem(placemark: destPlace)
-            let routeRequest = MKDirectionsRequest()
-            routeRequest.source = startItem
-            routeRequest.destination = destItem
-            routeRequest.transportType = .automobile
-            
-            let directions = MKDirections(request: routeRequest)
-            directions.calculate(completionHandler: { [weak self] response, error in
-                guard let response = response else {
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                    return
-                }
-                
-                let route = response.routes[0]
-                onCompletion(route)
-            })
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,84 +73,20 @@ class ARViewController: UIViewController, ARSessionDelegate {
             routeMan.getAltitudes { [weak self] finished in
                 if finished {
                     self?.routeStepsCount = routeMan.route.steps.count
-                    print(self?.routeStepsCount)
-                    self?.stepTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
+                    self?.stepTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
+                    self?.addItemNode()
                     self?.refreshARObjects()
                 }
             }
         }
     }
     
-    //    func addAllNodesToScene() {
-    //        if let steps = routePoints {
-    //            for (index, step) in steps.enumerated() {
-    //
-    //                if index < steps.endIndex - 1 {
-    //                    let pointA = step
-    //                    let pointB = steps[index + 1]
-    //                    let diffLat = pointB.latitude - pointA.latitude
-    //                    let diffLong = pointB.longitude - pointA.longitude
-    //
-    //                    let distanceAirAB = locationManager.getAirDistance(currentLocation: pointA, destinationLocation: pointB)
-    //
-    //                    var numPoints: Int = 0
-    //                    if (distanceAirAB > 10) && (distanceAirAB < 20) {
-    //                        numPoints = Int(distanceAirAB / 10)
-    //                    }
-    //                    if (distanceAirAB > 20) && (distanceAirAB < 100) {
-    //                        numPoints = Int(distanceAirAB / 20)
-    //                    } else if distanceAirAB > 100 {
-    //                        numPoints = Int(distanceAirAB / 50)
-    //                    }
-    //
-    //                    let intervalLat = diffLat / (Double(numPoints) + 1)
-    //                    let intervalLong = diffLong / (Double(numPoints) + 1)
-    //
-    //                    if numPoints == 0 {
-    //                        let coordinates = CLLocationCoordinate2D(latitude: pointA.latitude, longitude: pointA.longitude)
-    //                        locationManager.getAltitude(destination: coordinates) { [weak self] altitude in
-    //                            self?.GPSLoc.text = "Loading..."
-    //                            let point = CLLocation(coordinate: coordinates, altitude: altitude)
-    //                            if index == steps.endIndex {
-    //                                self?.addNodeToScene(destinationLoc: point, tag: "itemNode")
-    //                            } else {
-    //                                self?.addNodeToScene(destinationLoc: point, tag: "roadMarker")
-    //                            }
-    //                        }
-    //                    } else {
-    //                        for index in 1...numPoints {
-    //                            let coordinates = CLLocationCoordinate2D(latitude: pointA.latitude + intervalLat * Double(index), longitude: pointA.longitude + intervalLong * Double(index))
-    //
-    //                            locationManager.getAltitude(destination: coordinates) { [weak self] altitude in
-    //                                let point = CLLocation(coordinate: coordinates, altitude: altitude)
-    //                                if index == steps.endIndex {
-    //                                    self?.addNodeToScene(destinationLoc: point, tag: "itemNode")
-    //                                } else {
-    //                                    self?.addNodeToScene(destinationLoc: point, tag: "roadMarker")
-    //                                }
-    //                                self?.GPSLoc.text = "Loading..."
-    //                            }
-    //                        }
-    //                    }
-    //                } else {
-    //                    let coordinates = CLLocationCoordinate2D(latitude: step.latitude, longitude: step.longitude)
-    //                    if let ialt = itemAltitude {
-    //                        GPSLoc.text = "Loading..."
-    //                        let point = CLLocation(coordinate: coordinates, altitude: ialt)
-    //                        addNodeToScene(destinationLoc: point, tag: "itemNode")
-    //
-    //                    } else {
-    //                        locationManager.getAltitude(destination: coordinates) { [weak self] altitude in
-    //                            self?.GPSLoc.text = "Loading..."
-    //                            let point = CLLocation(coordinate: coordinates, altitude: altitude)
-    //                            self?.addNodeToScene(destinationLoc: point, tag: "itemNode")
-    //                        }
-    //                    }
-    //                }
-    //                GPSLoc.text = ""
-    //            }
-    //        }
-    //    }
+    func addItemNode() {
+        if let altitude = itemAltitude {
+            let location = CLLocation(coordinate: destinationCoordinates, altitude: altitude)
+            addNodeToScene(destinationLoc: location, tag: "itemNode")
+        }
+    }
     
     func addNodeToScene(destinationLoc: CLLocation, tag: String) {
         let node = LocationNode(location: destinationLoc)
@@ -197,14 +102,6 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     @IBAction func reset(_ sender: Any) {
         restartSession()
-        sceneLocationView.scene.rootNode.eulerAngles.y = 0
-        currentLocation = LocationManager.shared.getLastLocation()
-        currentAltitude = LocationManager.shared.getLastLocation()?.altitude
-        getRoute { [weak self] route in
-            self?.routeSteps = route.steps
-            self?.addAllNodesToScene()
-            self?.addARInstructions()
-        }
     }
     
     func restartSession() {
@@ -213,6 +110,15 @@ class ARViewController: UIViewController, ARSessionDelegate {
             sceneLocationView.removeLocationNode(locationNode: node)
         }
         sceneLocationView.run()
+        sceneLocationView.scene.rootNode.eulerAngles.y = 0
+        currentLocation = LocationManager.shared.getLastLocation()
+        currentAltitude = LocationManager.shared.getLastLocation()?.altitude
+        viewModel.getRoute(destination: destinationCoordinates) { [weak self] route in
+            self?.routeSteps = route.steps
+            self?.routeManager = RouteManager(forRoute: route)
+            self?.addARInstructions()
+            self?.addAllNodesToScene()
+        }
     }
     
     @objc func changeColorToSpeed() {
@@ -316,43 +222,15 @@ class ARViewController: UIViewController, ARSessionDelegate {
             for (index, step) in routeSteps.enumerated() {
                 LocationManager.shared.getAltitude(destination: step.polyline.coordinate) { [weak self] altitude in
                     if step == self?.routeSteps.last {
-                        let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 6)
-                        let node = LocationNode(location: location)
-                        node.tag = "instructionNode"
-                        let instruction = SCNPlane(width: 6, height: 6)
-                        instruction.firstMaterial?.diffuse.contents = UIImage(named: "RedArrow")
-                        instruction.firstMaterial?.isDoubleSided = true
-                        node.geometry = instruction
-                        node.constraints = [SCNBillboardConstraint()]
-                        self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
-                    } else if step != self?.routeSteps.first {
-                        let lastStepCoord = self?.routeSteps[index - 1].polyline.coordinate
-                        let nextStepCoord = self?.routeSteps[index + 1].polyline.coordinate
-                        let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 2)
-                        let node = LocationNode(location: location)
-                        node.tag = "instructionNode"
-                        let instruction = SCNPlane(width: 6, height: 6)
-                        if (LocationManager.shared.getDirection(previous: lastStepCoord!, current: step.polyline.coordinate, next: nextStepCoord!)) {
-                            instruction.firstMaterial?.diffuse.contents = UIImage(named: "RightArrow")
-                        } else {
-                            instruction.firstMaterial?.diffuse.contents = UIImage(named: "LeftArrow")
+                        if let node = self?.viewModel.returnLastInstruction(step: step, altitude: altitude) {
+                            self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
                         }
-                        instruction.firstMaterial?.isDoubleSided = true
-                        node.geometry = instruction
-                        node.constraints = [SCNBillboardConstraint()]
-                        self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
-                    } else {
-                        if let heading = LocationManager.shared.heading {
-                            if let currentLoc = self?.currentLocation {
-                                let headingRadians = heading * (Double.pi / 180)
-                                let x = 2 * cos(headingRadians) + currentLoc.coordinate.latitude
-                                let y = 2 * sin(headingRadians) + currentLoc.coordinate.longitude
-                                let coordinate = CLLocationCoordinate2D(latitude: x, longitude: y)
-                                let location = CLLocation(coordinate: coordinate, altitude: altitude)
-                                let node = LocationNode(location: location)
-                                node.geometry = SCNBox(width: 4, height: 2, length: 4, chamferRadius: 0)
-                                node.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-                                self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+                    } else if step != self?.routeSteps.first {
+                        if let lastStepCoord = self?.routeSteps[index - 1].polyline.coordinate {
+                            if let nextStepCoord = self?.routeSteps[index + 1].polyline.coordinate {
+                                if let node = self?.viewModel.returnInstruction(step: step, altitude: altitude, nextStep: nextStepCoord, lastStep: lastStepCoord) {
+                                    self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+                                }
                             }
                         }
                     }
@@ -367,9 +245,5 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     @IBAction func changeEulerRight(_ sender: Any) {
         sceneLocationView.moveSceneHeadingClockwise()
-    }
-    
-    func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        
     }
 }

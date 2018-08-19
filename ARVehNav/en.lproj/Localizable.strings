@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  ARVehNav
+
+  Created by Daniel Pavlekovic on 19/08/2018.
+  Copyright © 2018 Daniel Pavlekovic. All rights reserved.
+*/
+"signIn" = "Sign in with Google";
+"signOut" = "Sign Out";
+"loading" = "Loading...";
+"signedIn" = "You have successfully signed in with Google!";
+"signedOut" = "You have successfully signed out";
+"searchPlaces" = "Search for places";

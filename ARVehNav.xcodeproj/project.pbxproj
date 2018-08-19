@@ -11,6 +11,8 @@
 		1F28401A2129D9F600A06222 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2840192129D9F600A06222 /* Route.swift */; };
 		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
 		1F2B2B7721181D5500E85D59 /* MKMultiPoint+Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */; };
+		1F37ACCC212A01F1007869B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F37ACCE212A01F1007869B7 /* Localizable.strings */; };
+		1F37ACD1212A0991007869B7 /* ARViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F37ACD0212A0991007869B7 /* ARViewControllerModel.swift */; };
 		1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */; };
 		1F3FA5DA2108EC17000204F8 /* HelpingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */; };
 		1F3FA5DC210A1CFE000204F8 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5DB210A1CFE000204F8 /* ItemsTableViewController.swift */; };
@@ -38,6 +40,11 @@
 		1F2840192129D9F600A06222 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMultiPoint+Coordinates.swift"; sourceTree = "<group>"; };
+		1F37ACC7212A0112007869B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		1F37ACC9212A011C007869B7 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
+		1F37ACCD212A01F1007869B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1F37ACCF212A0214007869B7 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1F37ACD0212A0991007869B7 /* ARViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewControllerModel.swift; sourceTree = "<group>"; };
 		1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		1F3FA5D92108EC17000204F8 /* HelpingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpingViewController.swift; sourceTree = "<group>"; };
 		1F3FA5DB210A1CFE000204F8 /* ItemsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
@@ -52,8 +59,6 @@
 		1F969A032044370900D88EE0 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		1FB6566B205C1B9100732596 /* AddARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARViewController.swift; sourceTree = "<group>"; };
 		1FB6566D205C1BB800732596 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		1FBD63D82124813E0088DD86 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		1FBD63DA212481590088DD86 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
 		1FBD63DD2124BA7F0088DD86 /* DistanceNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceNode.swift; sourceTree = "<group>"; };
 		1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinates+ConvertToMeters.swift"; sourceTree = "<group>"; };
 		1FFD9B4F2110CB5A0053C567 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
@@ -86,6 +91,7 @@
 				1FFD9B55211385CE0053C567 /* Speed.swift */,
 				1FBD63DD2124BA7F0088DD86 /* DistanceNode.swift */,
 				1F2840192129D9F600A06222 /* Route.swift */,
+				1F37ACD0212A0991007869B7 /* ARViewControllerModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -145,6 +151,7 @@
 				1F9699FA2044345500D88EE0 /* LaunchScreen.storyboard */,
 				1F9699FD2044345500D88EE0 /* Info.plist */,
 				1F17DA29210627A400B15A4C /* GoogleService-Info.plist */,
+				1F37ACCE212A01F1007869B7 /* Localizable.strings */,
 			);
 			path = ARVehNav;
 			sourceTree = "<group>";
@@ -229,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F37ACCC212A01F1007869B7 /* Localizable.strings in Resources */,
 				1F9699FC2044345500D88EE0 /* LaunchScreen.storyboard in Resources */,
 				1F17DA2A210627A400B15A4C /* GoogleService-Info.plist in Resources */,
 				1F9699F92044345500D88EE0 /* Assets.xcassets in Resources */,
@@ -366,6 +374,7 @@
 				1F28401A2129D9F600A06222 /* Route.swift in Sources */,
 				1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
+				1F37ACD1212A0991007869B7 /* ARViewControllerModel.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
 				1FFD9B542110D3CF0053C567 /* LocationManager.swift in Sources */,
 				1F2B2B7721181D5500E85D59 /* MKMultiPoint+Coordinates.swift in Sources */,
@@ -378,12 +387,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1F37ACCE212A01F1007869B7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F37ACCD212A01F1007869B7 /* en */,
+				1F37ACCF212A0214007869B7 /* hr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		1F9699F52044345500D88EE0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1F9699F62044345500D88EE0 /* Base */,
-				1FBD63D82124813E0088DD86 /* en */,
-				1FBD63DA212481590088DD86 /* hr */,
+				1F37ACC7212A0112007869B7 /* en */,
+				1F37ACC9212A011C007869B7 /* hr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

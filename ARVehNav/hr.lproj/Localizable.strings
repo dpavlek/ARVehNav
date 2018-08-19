@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  ARVehNav
+
+  Created by Daniel Pavlekovic on 19/08/2018.
+  Copyright © 2018 Daniel Pavlekovic. All rights reserved.
+*/
+"signIn" = "Prijavite se";
+"signOut" = "Odjavite se";
+"loading" = "Učitavanje...";
+"signedIn" = "Uspješno ste se prijavili!";
+"signedOut" = "Uspješno ste se odjavili!";
+"searchPlaces" = "Tražite mjesta";
