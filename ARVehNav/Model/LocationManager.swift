@@ -12,10 +12,13 @@ import Alamofire
 import SwiftyJSON
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-    let locationManager = CLLocationManager()
-    var locationList:[CLLocation] = []
+    static let shared = LocationManager()
     
-    override init() {
+    let locationManager = CLLocationManager()
+    var locationList: [CLLocation] = []
+    var heading: CLLocationDistance?
+    
+    private override init() {
         super.init()
         locationManager.requestWhenInUseAuthorization()
         
@@ -38,11 +41,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         return (curCoordinates, altitude)
     }
     
-    func getSpeed()->Double{
-        if let speed = locationManager.location?.speed{
+    func getSpeed() -> Double {
+        if let speed = locationManager.location?.speed {
             return speed
         } else {
             return -1
+        }
+    }
+    
+    func getDistanceTo(locationCoords: CLLocationCoordinate2D) -> CLLocationDistance? {
+        let location = CLLocation(latitude: locationCoords.latitude, longitude: locationCoords.longitude)
+        if let lastLocation = getLastLocation() {
+            return lastLocation.distance(from: location)
+        } else {
+            return nil
         }
     }
     
@@ -57,21 +69,32 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         return currentLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: destinationLocation.longitude)
     }
     
-    func getAltitude(currentAltitude: Double, destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-        var altitude = currentAltitude - 5
-        Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
-            switch response.result {
-                
-            case .success(let data):
-                let response = JSON(data)
-                altitude = response["elevationProfile"]["height"].doubleValue
-                onCompletion(altitude)
-                
-            case .failure(let error):
-                print(error)
-                onCompletion(altitude)
+    func getAltitude(destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
+        if let currentAltitude = locationManager.location?.altitude {
+            var altitude = currentAltitude - 2
+            Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
+                switch response.result {
+                    
+                case .success(let data):
+                    let response = JSON(data)
+                    altitude = response["elevationProfile"][0]["height"].doubleValue
+                    onCompletion(altitude)
+                    
+                case .failure(let error):
+                    print(error)
+                    onCompletion(altitude)
+                }
             }
-            
+        }
+    }
+    
+    func getDirection(previous: CLLocationCoordinate2D, current: CLLocationCoordinate2D, next: CLLocationCoordinate2D) -> Bool {
+        let currentNew = CLLocationCoordinate2D(latitude: current.latitude - previous.latitude, longitude: current.longitude - previous.longitude)
+        let nextNew = CLLocationCoordinate2D(latitude: next.latitude - previous.latitude, longitude: next.longitude - previous.longitude)
+        if currentNew.latitude * nextNew.longitude > currentNew.longitude * nextNew.latitude {
+            return true
+        } else {
+            return false
         }
     }
     
@@ -79,16 +102,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         return destinationAltitude - currentAltitude
     }
     
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationList = locations
     }
     
-    func getLastLocation()->CLLocation?{
-        if let location = locationList.last{
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        heading = newHeading.trueHeading
+    }
+    
+    func getLastLocation() -> CLLocation? {
+        if let location = locationList.last {
             return location
-        }
-        else{
+        } else {
             return nil
         }
     }

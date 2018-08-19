@@ -9,14 +9,26 @@
 import Foundation
 import CoreLocation
 
-extension CLLocationCoordinate2D{
-    func DistanceTo(latitudeTo latTo: Double, longitudeTo longTo: Double) -> (Double){
+extension CLLocationCoordinate2D {
+    func DistanceTo(latitudeTo latTo: Double, longitudeTo longTo: Double) -> Double {
         let R = 6378.137
         let distanceLat = latTo * Double.pi / 180 - self.latitude * Double.pi / 180
         let distanceLong = longTo * Double.pi / 180 - self.longitude * Double.pi / 180
-        let a = sin(distanceLat/2)*sin(distanceLat/2)+cos(latTo*Double.pi/180)*cos(self.latitude*Double.pi/180)*sin(distanceLong/2)*sin(distanceLong/2)
-        let c = 2 * atan2(sqrt(a), sqrt(1-a))
+        let a = sin(distanceLat / 2) * sin(distanceLat / 2) + cos(latTo * Double.pi / 180) * cos(self.latitude * Double.pi / 180) * sin(distanceLong / 2) * sin(distanceLong / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
         let d = R * c
-        return d*1000
+        return d * 1000
+    }
+}
+
+extension CLLocationCoordinate2D: Equatable {
+    static public func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        if lhs.latitude == rhs.latitude {
+            if lhs.longitude == rhs.longitude {
+                return true
+            }
+            return false
+        }
+        return false
     }
 }

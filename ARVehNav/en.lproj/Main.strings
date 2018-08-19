@@ -12,13 +12,13 @@
 "9S8-ic-kKI.normalTitle" = "▶";
 
 /* Class = "UILabel"; text = "Hold the phone next to the item and press Save"; ObjectID = "FRO-DQ-icM"; */
-"FRO-DQ-icM.text" = "Držite mobitel blizu objekta i pritisnite Spremi";
+"FRO-DQ-icM.text" = "Hold the phone next to the item and press Save";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "HgO-Sl-GhS"; */
 "HgO-Sl-GhS.text" = "Subtitle";
 
 /* Class = "UIBarButtonItem"; title = "Show"; ObjectID = "IWp-s4-TCI"; */
-"IWp-s4-TCI.title" = "Prikaži";
+"IWp-s4-TCI.title" = "Show";
 
 /* Class = "UIButton"; normalTitle = "Reset"; ObjectID = "KS5-bq-uQG"; */
 "KS5-bq-uQG.normalTitle" = "Reset";
@@ -30,10 +30,10 @@
 "Tx5-VB-enO.title" = "Title";
 
 /* Class = "UINavigationItem"; title = "Map"; ObjectID = "axs-SN-eAD"; */
-"axs-SN-eAD.title" = "Karta";
+"axs-SN-eAD.title" = "Map";
 
 /* Class = "UIButton"; normalTitle = "Items"; ObjectID = "cR7-La-z92"; */
-"cR7-La-z92.normalTitle" = "Spremljeni objekti";
+"cR7-La-z92.normalTitle" = "Items";
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "h2C-sD-AEO"; */
 "h2C-sD-AEO.text" = "Label";
@@ -42,7 +42,7 @@
 "iNM-1k-44Z.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "Items"; ObjectID = "iQn-26-K1h"; */
-"iQn-26-K1h.title" = "Objekti";
+"iQn-26-K1h.title" = "Items";
 
 /* Class = "UIButton"; normalTitle = "◀"; ObjectID = "ioJ-vV-8e6"; */
 "ioJ-vV-8e6.normalTitle" = "◀";
@@ -51,13 +51,13 @@
 "kAj-EZ-CG7.text" = "Label";
 
 /* Class = "UIButton"; normalTitle = "Choose location"; ObjectID = "oxA-bx-Nu9"; */
-"oxA-bx-Nu9.normalTitle" = "Odaberite lokaciju";
+"oxA-bx-Nu9.normalTitle" = "Choose location";
 
 /* Class = "UILabel"; text = "Description:"; ObjectID = "stW-je-iO6"; */
-"stW-je-iO6.text" = "Opis:";
+"stW-je-iO6.text" = "Description:";
 
 /* Class = "UINavigationItem"; title = "Title"; ObjectID = "wpV-eE-qUS"; */
-"wpV-eE-qUS.title" = "Novi objekt";
+"wpV-eE-qUS.title" = "Title";
 
 /* Class = "UILabel"; text = "Name:"; ObjectID = "xLH-L0-Dko"; */
-"xLH-L0-Dko.text" = "Naziv:";
+"xLH-L0-Dko.text" = "Name:";

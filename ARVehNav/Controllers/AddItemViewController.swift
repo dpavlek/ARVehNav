@@ -14,7 +14,6 @@ class AddItemViewController: UIViewController {
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var descField: UITextView!
     
-    var locationManager = LocationManager()
     var itemManager = ItemManager()
     
     override func viewDidLoad() {
@@ -39,8 +38,8 @@ class AddItemViewController: UIViewController {
     }
     
     func addItemToDatabase(onCompletion: @escaping (Bool) -> Void) {
-        let location = locationManager.getPosition().Location
-        let altitude = locationManager.getPosition().Altitude
+        let location = LocationManager.shared.getPosition().Location
+        let altitude = LocationManager.shared.getPosition().Altitude
         
         guard let name = nameField.text,
             let description = descField.text,

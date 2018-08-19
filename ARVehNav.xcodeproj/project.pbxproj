@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F17DA2A210627A400B15A4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F17DA29210627A400B15A4C /* GoogleService-Info.plist */; };
+		1F28401A2129D9F600A06222 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2840192129D9F600A06222 /* Route.swift */; };
 		1F2A0CE120987B0F007356F3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2A0CE020987B0F007356F3 /* Constants.swift */; };
 		1F2B2B7721181D5500E85D59 /* MKMultiPoint+Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */; };
 		1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */; };
@@ -22,6 +23,7 @@
 		1F969A042044370900D88EE0 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F969A032044370900D88EE0 /* ARViewController.swift */; };
 		1FB6566C205C1B9100732596 /* AddARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566B205C1B9100732596 /* AddARViewController.swift */; };
 		1FB6566E205C1BB800732596 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB6566D205C1BB800732596 /* Item.swift */; };
+		1FBD63DE2124BA7F0088DD86 /* DistanceNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBD63DD2124BA7F0088DD86 /* DistanceNode.swift */; };
 		1FBF5A902073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */; };
 		1FFD9B502110CB5A0053C567 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B4F2110CB5A0053C567 /* ItemTableViewCell.swift */; };
 		1FFD9B522110D2080053C567 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFD9B512110D2080053C567 /* AddItemViewController.swift */; };
@@ -31,9 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F0F7EB020CFE99C0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
 		1F0F7EB120CFE99F0024B750 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		1F17DA29210627A400B15A4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1F2840192129D9F600A06222 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		1F2A0CE020987B0F007356F3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1F2B2B7621181D5500E85D59 /* MKMultiPoint+Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMultiPoint+Coordinates.swift"; sourceTree = "<group>"; };
 		1F3FA5D72108D2B2000204F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
@@ -50,6 +52,9 @@
 		1F969A032044370900D88EE0 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		1FB6566B205C1B9100732596 /* AddARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddARViewController.swift; sourceTree = "<group>"; };
 		1FB6566D205C1BB800732596 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		1FBD63D82124813E0088DD86 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		1FBD63DA212481590088DD86 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Main.strings; sourceTree = "<group>"; };
+		1FBD63DD2124BA7F0088DD86 /* DistanceNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceNode.swift; sourceTree = "<group>"; };
 		1FBF5A8F2073728E00E9FDDC /* CLLocationCoordinates+ConvertToMeters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinates+ConvertToMeters.swift"; sourceTree = "<group>"; };
 		1FFD9B4F2110CB5A0053C567 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		1FFD9B512110D2080053C567 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +84,8 @@
 				1F2A0CE020987B0F007356F3 /* Constants.swift */,
 				1FFD9B532110D3CF0053C567 /* LocationManager.swift */,
 				1FFD9B55211385CE0053C567 /* Speed.swift */,
+				1FBD63DD2124BA7F0088DD86 /* DistanceNode.swift */,
+				1F2840192129D9F600A06222 /* Route.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,6 +212,7 @@
 			knownRegions = (
 				en,
 				Base,
+				hr,
 			);
 			mainGroup = 1F9699E52044345400D88EE0;
 			productRefGroup = 1F9699EF2044345500D88EE0 /* Products */;
@@ -353,7 +361,9 @@
 				1F3FA5D82108D2B2000204F8 /* LocationSearchTable.swift in Sources */,
 				1FFD9B502110CB5A0053C567 /* ItemTableViewCell.swift in Sources */,
 				1FFD9B522110D2080053C567 /* AddItemViewController.swift in Sources */,
+				1FBD63DE2124BA7F0088DD86 /* DistanceNode.swift in Sources */,
 				1F969A042044370900D88EE0 /* ARViewController.swift in Sources */,
+				1F28401A2129D9F600A06222 /* Route.swift in Sources */,
 				1F62EBB1209CA7A8008F3434 /* MapViewController.swift in Sources */,
 				1F9699F42044345500D88EE0 /* ViewController.swift in Sources */,
 				1F9699F22044345500D88EE0 /* AppDelegate.swift in Sources */,
@@ -372,7 +382,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				1F9699F62044345500D88EE0 /* Base */,
-				1F0F7EB020CFE99C0024B750 /* hr */,
+				1FBD63D82124813E0088DD86 /* en */,
+				1FBD63DA212481590088DD86 /* hr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -511,7 +522,7 @@
 				DEVELOPMENT_TEAM = KZ7LVBES5H;
 				INFOPLIST_FILE = ARVehNav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dpavlekovic.ARVehNav;
+				PRODUCT_BUNDLE_IDENTIFIER = dpavlekovic.ARVehNav2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -527,7 +538,7 @@
 				DEVELOPMENT_TEAM = KZ7LVBES5H;
 				INFOPLIST_FILE = ARVehNav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dpavlekovic.ARVehNav;
+				PRODUCT_BUNDLE_IDENTIFIER = dpavlekovic.ARVehNav2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
