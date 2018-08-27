@@ -13,9 +13,13 @@ import MapKit
 import ARKit
 
 class ARViewControllerModel {
+    
     func getRoute(destination destinationCoordinates: CLLocationCoordinate2D, onCompletion: @escaping (MKRoute) -> Void) {
         let curCoord = LocationManager.shared.getPosition().Location
-        let startPlace = MKPlacemark(coordinate: curCoord)
+        guard let currentCoordinates = curCoord else{
+           return
+        }
+        let startPlace = MKPlacemark(coordinate: currentCoordinates)
         let destPlace = MKPlacemark(coordinate: destinationCoordinates)
         let startItem = MKMapItem(placemark: startPlace)
         let destItem = MKMapItem(placemark: destPlace)
@@ -25,7 +29,7 @@ class ARViewControllerModel {
         routeRequest.transportType = .automobile
         
         let directions = MKDirections(request: routeRequest)
-        directions.calculate(completionHandler: { [weak self] response, error in
+        directions.calculate(completionHandler: { response, error in
             guard let response = response else {
                 if let error = error {
                     print(error.localizedDescription)
@@ -38,10 +42,10 @@ class ARViewControllerModel {
         })
     }
     
-    func returnLastInstruction(step: MKRouteStep, altitude: Double) -> LocationNode {
-        let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 6)
+    func returnLastInstruction(step: RouteStep, altitude: Double) -> LocationNode {
+        let location = CLLocation(coordinate: step.coordinates, altitude: altitude + 6)
         let node = LocationNode(location: location)
-        node.tag = "instructionNode"
+        node.tag = "finishArrow"
         let instruction = SCNPlane(width: 6, height: 6)
         instruction.firstMaterial?.diffuse.contents = UIImage(named: "RedArrow")
         instruction.firstMaterial?.isDoubleSided = true
@@ -51,14 +55,17 @@ class ARViewControllerModel {
     }
     
     func returnInstruction(step: MKRouteStep, altitude: Double, nextStep: CLLocationCoordinate2D, lastStep: CLLocationCoordinate2D) -> LocationNode {
-        let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 2)
+        let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 4)
         let node = LocationNode(location: location)
         node.tag = "instructionNode"
         let instruction = SCNPlane(width: 6, height: 6)
-        if LocationManager.shared.getDirection(previous: lastStep, current: step.polyline.coordinate, next: nextStep) {
+        switch LocationManager.shared.getDirection(previous: lastStep, current: step.polyline.coordinate, next: nextStep) {
+        case .right:
             instruction.firstMaterial?.diffuse.contents = UIImage(named: "RightArrow")
-        } else {
+        case .left:
             instruction.firstMaterial?.diffuse.contents = UIImage(named: "LeftArrow")
+        case .straight:
+            instruction.firstMaterial?.diffuse.contents = UIImage(named: "StraightArrow")
         }
         instruction.firstMaterial?.isDoubleSided = true
         node.geometry = instruction

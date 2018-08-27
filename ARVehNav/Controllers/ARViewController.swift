@@ -8,30 +8,27 @@
 
 import UIKit
 import ARKit
-import CoreLocation
 import MapKit
-import SwiftyJSON
-import Alamofire
 import ARCL
 
 class ARViewController: UIViewController, ARSessionDelegate {
     
-    var currentLocation: CLLocation?
+    private var currentLocation: CLLocation?
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
-    var currentCoordinates: CLLocationCoordinate2D?
+    private var currentCoordinates: CLLocationCoordinate2D?
     private var currentAltitude: Double?
-    var routeSteps = [MKRouteStep]()
-    var routeStepsCount: Int = 0
-    var passedSteps = [MKRouteStep]()
-    var speedManager = SpeedManager()
-    var speedTimer: Timer!
-    var stepTimer: Timer!
+    private var routeSteps = [MKRouteStep]()
+    private var routeStepsCount: Int = 0
+    private var passedSteps = [MKRouteStep]()
+    private var speedManager = SpeedManager()
+    private var speedTimer: Timer!
+    private var stepTimer: Timer!
     var itemAltitude: Double?
-    var sceneLocationView = SceneLocationView()
-    var routeManager: RouteManager?
-    var lastNode: LocationNode?
-    let viewModel = ARViewControllerModel()
-    private var nextStep = 0
+    private var sceneLocationView = SceneLocationView()
+    private var routeManager: RouteManager?
+    private var lastNode: LocationNode?
+    private var headingCamera: Double = 0
+    private let viewModel = ARViewControllerModel()
     
     @IBOutlet weak var GPSLoc: UILabel!
     
@@ -47,7 +44,8 @@ class ARViewController: UIViewController, ARSessionDelegate {
         GPSLoc.text = NSLocalizedString("loading", comment: "Loading...")
         
         sceneLocationView.session.delegate = self
-        speedTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(changeColorToSpeed), userInfo: nil, repeats: true)
+        
+        speedTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(changeColorToSpeed), userInfo: nil, repeats: true)
         
         restartSession()
     }
@@ -60,6 +58,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         speedTimer.invalidate()
+        stepTimer.invalidate()
         sceneLocationView.pause()
         sceneLocationView.removeFromSuperview()
     }
@@ -72,8 +71,10 @@ class ARViewController: UIViewController, ARSessionDelegate {
         if let routeMan = routeManager {
             routeMan.getAltitudes { [weak self] finished in
                 if finished {
+                    self?.addLastInstruction()
                     self?.routeStepsCount = routeMan.route.steps.count
-                    self?.stepTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
+                    print("Step count: \(self?.routeStepsCount)")
+                    self?.stepTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
                     self?.addItemNode()
                     self?.refreshARObjects()
                 }
@@ -105,18 +106,21 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
     
     func restartSession() {
+        GPSLoc.text = NSLocalizedString("loading", comment: "Loading...")
+        if (stepTimer != nil){
+            stepTimer.invalidate()
+        }
         sceneLocationView.session.pause()
         for node in sceneLocationView.findNodes(tagged: "roadMarker") {
             sceneLocationView.removeLocationNode(locationNode: node)
         }
         sceneLocationView.run()
-        sceneLocationView.scene.rootNode.eulerAngles.y = 0
         currentLocation = LocationManager.shared.getLastLocation()
         currentAltitude = LocationManager.shared.getLastLocation()?.altitude
         viewModel.getRoute(destination: destinationCoordinates) { [weak self] route in
             self?.routeSteps = route.steps
             self?.routeManager = RouteManager(forRoute: route)
-            self?.addARInstructions()
+            self?.addARInstruction()
             self?.addAllNodesToScene()
         }
     }
@@ -161,33 +165,44 @@ class ARViewController: UIViewController, ARSessionDelegate {
     func refreshARObjects() {
         if let routeManager = routeManager {
             
-            for object in sceneLocationView.findNodes(tagged: "roadMarker") {
-                sceneLocationView.removeLocationNode(locationNode: object)
-            }
-            
-            if routeManager.route.steps.count < 200 {
-                for step in routeManager.route.steps {
-                    var nodeLocation = CLLocation()
-                    if let altitude = step.altitude {
-                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: altitude)
-                    } else if let currentAltitude = currentAltitude {
-                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 2)
-                    } else {
-                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: 0)
-                    }
-                    addNodeToScene(destinationLoc: nodeLocation, tag: "roadMarker")
-                }
-            } else {
+//            if routeManager.route.steps.count < 500 {
+//                for step in routeManager.route.steps {
+//                    var nodeLocation = CLLocation()
+//                    if let altitude = step.altitude {
+//                        if altitude != -1 {
+//                            nodeLocation = CLLocation(coordinate: step.coordinates, altitude: altitude)
+//                        } else {
+//                            if let currentAltitude = LocationManager.shared.getPosition().Altitude {
+//                                nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
+//                            }
+//                        }
+//                    } else if let currentAltitude = currentAltitude {
+//                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
+//                    } else {
+//                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: 0)
+//                    }
+//                    addNodeToScene(destinationLoc: nodeLocation, tag: "roadMarker")
+//                }
+//            } else {
                 if routeSteps.count > 2 {
+                    for object in sceneLocationView.findNodes(tagged: "roadMarker") {
+                        sceneLocationView.removeLocationNode(locationNode: object)
+                    }
                     for (index, step) in routeManager.route.steps.enumerated() {
                         if step.coordinates == routeSteps[2].polyline.coordinate {
                             return
                         } else {
                             var nodeLocation = CLLocation()
                             if let altitude = step.altitude {
-                                nodeLocation = CLLocation(coordinate: step.coordinates, altitude: altitude)
+                                if altitude != -1 {
+                                    nodeLocation = CLLocation(coordinate: step.coordinates, altitude: altitude)
+                                } else {
+                                    if let currentAltitude = LocationManager.shared.getPosition().Altitude {
+                                        nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
+                                    }
+                                }
                             } else if let currentAltitude = currentAltitude {
-                                nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 2)
+                                nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
                             } else {
                                 nodeLocation = CLLocation(coordinate: step.coordinates, altitude: 0)
                             }
@@ -197,16 +212,17 @@ class ARViewController: UIViewController, ARSessionDelegate {
                     }
                 }
             }
-        }
+        //}
     }
     
     @objc func checkSteps() {
         DispatchQueue.global(qos: .background).async {
             if self.routeSteps.count > 0 {
                 if let distance = LocationManager.shared.getDistanceTo(locationCoords: (self.routeSteps.first?.polyline.coordinate)!) {
-                    if distance < 5 {
+                    if distance < 25 {
                         self.passedSteps.append(self.routeSteps.first!)
                         self.routeSteps.remove(at: 0)
+                        self.addARInstruction()
                         self.refreshARObjects()
                     }
                 }
@@ -217,27 +233,65 @@ class ARViewController: UIViewController, ARSessionDelegate {
         }
     }
     
-    func addARInstructions() {
-        if routeSteps.count > 0 {
-            for (index, step) in routeSteps.enumerated() {
-                LocationManager.shared.getAltitude(destination: step.polyline.coordinate) { [weak self] altitude in
-                    if step == self?.routeSteps.last {
-                        if let node = self?.viewModel.returnLastInstruction(step: step, altitude: altitude) {
-                            self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
-                        }
-                    } else if step != self?.routeSteps.first {
-                        if let lastStepCoord = self?.routeSteps[index - 1].polyline.coordinate {
-                            if let nextStepCoord = self?.routeSteps[index + 1].polyline.coordinate {
-                                if let node = self?.viewModel.returnInstruction(step: step, altitude: altitude, nextStep: nextStepCoord, lastStep: lastStepCoord) {
-                                    self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
-                                }
-                            }
-                        }
+    func addLastInstruction() {
+        if let step = routeManager?.route.steps.last {
+            if let altitude = step.altitude {
+                if altitude < 0 {
+                    if let alt = LocationManager.shared.getPosition().Altitude {
+                        let node = viewModel.returnLastInstruction(step: step, altitude: alt + 2)
+                        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+                    }
+                } else {
+                    let node = viewModel.returnLastInstruction(step: step, altitude: altitude + 2)
+                    sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+                }
+            }
+        }
+    }
+    
+    func addARInstruction() {
+        for node in sceneLocationView.findNodes(tagged: "instructionNode") {
+            sceneLocationView.removeLocationNode(locationNode: node)
+        }
+        let location = LocationManager.shared.getPosition()
+        if let lastStepCoord = location.Location {
+            if routeSteps.indices.contains(1) {
+                let nextStepCoord = routeSteps[1].polyline.coordinate
+                if let step = routeSteps.first {
+                    if let altitude = location.Altitude {
+                        let node = viewModel.returnInstruction(step: step, altitude: altitude - 1, nextStep: nextStepCoord, lastStep: lastStepCoord)
+                        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
                     }
                 }
             }
         }
     }
+    
+    //    func addARInstructions() {
+    //        if routeSteps.count > 0 {
+    //            for (index, step) in routeSteps.enumerated() {
+    //                LocationManager.shared.getAltitude(destination: step.polyline.coordinate) { [weak self] altitude in
+    //                    if step == self?.routeSteps.last {
+    //                        if let node = self?.viewModel.returnLastInstruction(step: step, altitude: altitude + 2) {
+    //                            self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+    //                        }
+    //                    } else if step != self?.routeSteps.first {
+    //                        if let lastStepCoord = self?.routeSteps[index - 1].polyline.coordinate {
+    //                            if let nextStepCoord = self?.routeSteps[index + 1].polyline.coordinate {
+    //                                if let node = self?.viewModel.returnInstruction(step: step, altitude: altitude + 2, nextStep: nextStepCoord, lastStep: lastStepCoord) {
+    //                                    self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+    //                                }
+    //                            }
+    //                        }
+    //                    } else if step == self?.routeSteps.first {
+    //                        if let node = self?.viewModel.returnFirstInstruction(step: step, altitude: altitude + 2, cameraHeading: (self?.headingCamera)!) {
+    //                            self?.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     @IBAction func changeEulerLeft(_ sender: Any) {
         sceneLocationView.moveSceneHeadingAntiClockwise()
@@ -245,5 +299,13 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     @IBAction func changeEulerRight(_ sender: Any) {
         sceneLocationView.moveSceneHeadingClockwise()
+    }
+    
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        if let cameraEuler = session.currentFrame?.camera.eulerAngles.y {
+            if let heading = LocationManager.shared.heading {
+                headingCamera = Double(cameraEuler) + heading
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@
 "RgD-bc-bcd.normalTitle" = "Prijavi se";
 
 /* Class = "UINavigationItem"; title = "Sign In Label"; ObjectID = "Tx5-VB-enO"; */
-"Tx5-VB-enO.title" = "Sign In Label";
+"Tx5-VB-enO.title" = "Prijava";
 
 /* Class = "UINavigationItem"; title = "Map"; ObjectID = "axs-SN-eAD"; */
 "axs-SN-eAD.title" = "Karta";

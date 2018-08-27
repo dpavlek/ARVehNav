@@ -22,12 +22,12 @@ class AddItemViewController: UIViewController {
         descField.layer.borderWidth = 0.5
     }
     @IBAction func cancel(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func saveItem(_ sender: Any) {
         addItemToDatabase { success in
-            if (success) {
+            if success {
                 print("Item added to database")
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -38,20 +38,22 @@ class AddItemViewController: UIViewController {
     }
     
     func addItemToDatabase(onCompletion: @escaping (Bool) -> Void) {
-        let location = LocationManager.shared.getPosition().Location
-        let altitude = LocationManager.shared.getPosition().Altitude
-        
-        guard let name = nameField.text,
-            let description = descField.text,
-            !name.isEmpty, !description.isEmpty else {
+        if let location = LocationManager.shared.getPosition().Location {
+            if let altitude = LocationManager.shared.getPosition().Altitude {
+                guard let name = nameField.text,
+                    let description = descField.text,
+                    !name.isEmpty, !description.isEmpty else {
+                    onCompletion(false)
+                    return
+                }
+                
+                let itemToAdd = Item(coordinates: (latitude: location.latitude, longitude: location.longitude), name: nameField.text!, description: descField.text, dateAdded: Date(), height: altitude, itemID: "")
+                
+                itemManager.addItemToDatabase(itemToAdd: itemToAdd)
+                onCompletion(true)
+            }
             onCompletion(false)
-            return
         }
-        
-        let itemToAdd = Item(coordinates: (latitude: location.latitude, longitude: location.longitude), name: nameField.text!, description: descField.text, dateAdded: Date(), height: altitude, itemID: "")
-        
-        itemManager.addItemToDatabase(itemToAdd: itemToAdd)
-        onCompletion(true)
+        onCompletion(false)
     }
-    
 }

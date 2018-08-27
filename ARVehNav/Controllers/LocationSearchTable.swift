@@ -43,12 +43,13 @@ extension LocationSearchTable:UISearchResultsUpdating{
         req.naturalLanguageQuery = searchBarText
         req.region = destinationMapView.region
         let search = MKLocalSearch(request: req)
-        search.start { (data, err) in
+        search.start { [weak self] (data, err) in
             guard let data = data else{
+                print(err?.localizedDescription)
                 return
             }
-            self.matchItems = data.mapItems
-            self.tableView.reloadData()
+            self?.matchItems = data.mapItems
+            self?.tableView.reloadData()
         }
     }
 }

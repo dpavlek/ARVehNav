@@ -35,9 +35,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func getPosition() -> (Location: CLLocationCoordinate2D, Altitude: Double) {
-        let curCoordinates = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
-        let altitude = (locationManager.location?.altitude)!
+    func getPosition() -> (Location: CLLocationCoordinate2D?, Altitude: Double?) {
+        var curCoordinates: CLLocationCoordinate2D? = nil
+        if let location = locationManager.location{
+            curCoordinates = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        }
+        let altitude = (locationManager.location?.altitude)
         return (curCoordinates, altitude)
     }
     
@@ -66,12 +69,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func getAirDistance(currentLocation: CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D) -> Double {
-        return currentLocation.DistanceTo(latitudeTo: destinationLocation.latitude, longitudeTo: destinationLocation.longitude)
+            let R = 6378.137
+            let distanceLat = destinationLocation.latitude * Double.pi / 180 - currentLocation.latitude * Double.pi / 180
+            let distanceLong = destinationLocation.longitude * Double.pi / 180 - currentLocation.longitude * Double.pi / 180
+            let a = sin(distanceLat / 2) * sin(distanceLat / 2) + cos(destinationLocation.latitude * Double.pi / 180) * cos(currentLocation.latitude * Double.pi / 180) * sin(distanceLong / 2) * sin(distanceLong / 2)
+            let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+            let d = R * c
+            return d * 1000
     }
     
     func getAltitude(destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-        if let currentAltitude = locationManager.location?.altitude {
-            var altitude = currentAltitude - 2
+            var altitude: Double = -1
             Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
                 switch response.result {
                     
@@ -81,20 +89,28 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     onCompletion(altitude)
                     
                 case .failure(let error):
-                    print(error)
+                    print("Alamofire: \(error)")
                     onCompletion(altitude)
                 }
             }
-        }
     }
     
-    func getDirection(previous: CLLocationCoordinate2D, current: CLLocationCoordinate2D, next: CLLocationCoordinate2D) -> Bool {
+    enum turns{
+        case left
+        case right
+        case straight
+    }
+    
+    func getDirection(previous: CLLocationCoordinate2D, current: CLLocationCoordinate2D, next: CLLocationCoordinate2D) -> turns {
         let currentNew = CLLocationCoordinate2D(latitude: current.latitude - previous.latitude, longitude: current.longitude - previous.longitude)
         let nextNew = CLLocationCoordinate2D(latitude: next.latitude - previous.latitude, longitude: next.longitude - previous.longitude)
-        if currentNew.latitude * nextNew.longitude > currentNew.longitude * nextNew.latitude {
-            return true
+        if  abs(currentNew.latitude*nextNew.longitude - currentNew.longitude*nextNew.latitude)<0.0000001{
+            return .straight
+        }
+        else if currentNew.latitude * nextNew.longitude > currentNew.longitude * nextNew.latitude {
+            return .right
         } else {
-            return false
+            return .left
         }
     }
     

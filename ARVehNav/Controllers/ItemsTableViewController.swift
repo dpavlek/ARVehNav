@@ -18,7 +18,7 @@ class ItemsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         loadingIndicator.center = CGPoint(x: view.bounds.size.width / 2, y: view.bounds.size.height / 3)
-        loadingIndicator.color = UIColor.red
+        loadingIndicator.color = UIColor.blue
         loadingIndicator.hidesWhenStopped = true
         tableView.tableFooterView = UIView()
         

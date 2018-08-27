@@ -25,19 +25,10 @@ class HelpingViewController: UIViewController, GIDSignInUIDelegate {
             signInLabel.text = NSLocalizedString("signedOut", comment: "Signed Out")
             signOut()
         }
-        // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
     @IBAction func done(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func signIn(){

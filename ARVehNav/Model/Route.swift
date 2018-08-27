@@ -42,12 +42,14 @@ class RouteManager {
                 
                 let distanceAirAB = LocationManager.shared.getAirDistance(currentLocation: pointA, destinationLocation: pointB)
                 var numPoints: Int = 0
-                if (distanceAirAB > 10) && (distanceAirAB < 20) {
-                    numPoints = Int(distanceAirAB / 10)
-                } else if (distanceAirAB > 20) && (distanceAirAB < 100) {
+                if (distanceAirAB > 20) && (distanceAirAB < 100) {
                     numPoints = Int(distanceAirAB / 20)
-                } else if distanceAirAB > 100 {
+                } else if distanceAirAB > 100 && distanceAirAB < 1000 {
                     numPoints = Int(distanceAirAB / 50)
+                } else if distanceAirAB > 1000 && distanceAirAB < 5000{
+                    numPoints = Int(distanceAirAB / 100)
+                } else if distanceAirAB > 5000{
+                    numPoints = Int(distanceAirAB / 200)
                 }
                 
                 let intervalLat = diffLat / (Double(numPoints) + 1)
@@ -72,8 +74,8 @@ class RouteManager {
         let count = self.route.steps.count
         var finished = 0
         for (index,step) in self.route.steps.enumerated() {
-            LocationManager.shared.getAltitude(destination: step.coordinates) { altitude in
-                self.route.steps[index].altitude = altitude
+            LocationManager.shared.getAltitude(destination: step.coordinates) {[weak self] altitude in
+                self?.route.steps[index].altitude = altitude
                 finished += 1
                 if(finished == count){
                     onCompletion(true)
