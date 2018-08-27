@@ -29,6 +29,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     private var lastNode: LocationNode?
     private var headingCamera: Double = 0
     private let viewModel = ARViewControllerModel()
+    private var startTime = DispatchTime.now()
     
     @IBOutlet weak var GPSLoc: UILabel!
     
@@ -76,7 +77,9 @@ class ARViewController: UIViewController, ARSessionDelegate {
                     print("Step count: \(self?.routeStepsCount)")
                     self?.stepTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
                     self?.addItemNode()
-                    self?.refreshARObjects()
+                    let end = DispatchTime.now()
+                    let time = Double(end.uptimeNanoseconds - (self?.startTime.uptimeNanoseconds)!) / 1_000_000_000
+                    print("Time: \(time)")
                 }
             }
         }
@@ -106,6 +109,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
     
     func restartSession() {
+        startTime = DispatchTime.now()
         GPSLoc.text = NSLocalizedString("loading", comment: "Loading...")
         if (stepTimer != nil){
             stepTimer.invalidate()
@@ -207,10 +211,29 @@ class ARViewController: UIViewController, ARSessionDelegate {
                                 nodeLocation = CLLocation(coordinate: step.coordinates, altitude: 0)
                             }
                             addNodeToScene(destinationLoc: nodeLocation, tag: "roadMarker")
-                            routeManager.route.steps.remove(at: index)
+                            routeManager.route.steps.remove(at: 0)
                         }
                     }
                 }
+                else{
+                                    for step in routeManager.route.steps {
+                                        var nodeLocation = CLLocation()
+                                        if let altitude = step.altitude {
+                                            if altitude != -1 {
+                                                nodeLocation = CLLocation(coordinate: step.coordinates, altitude: altitude)
+                                            } else {
+                                                if let currentAltitude = LocationManager.shared.getPosition().Altitude {
+                                                    nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
+                                                }
+                                            }
+                                        } else if let currentAltitude = currentAltitude {
+                                            nodeLocation = CLLocation(coordinate: step.coordinates, altitude: currentAltitude - 1)
+                                        } else {
+                                            nodeLocation = CLLocation(coordinate: step.coordinates, altitude: 0)
+                                        }
+                                        addNodeToScene(destinationLoc: nodeLocation, tag: "roadMarker")
+                                    }
+            }
             }
         //}
     }

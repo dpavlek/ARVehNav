@@ -223,7 +223,9 @@
                                     <constraint firstAttribute="height" constant="50" id="0Sz-np-jaU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Items"/>
+                                <state key="normal" title="Items">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <segue destination="4G8-md-7Gm" kind="show" id="GDX-d1-RGV"/>
                                 </connections>
@@ -234,7 +236,9 @@
                                     <constraint firstAttribute="height" constant="50" id="lwr-G3-2Zh"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Sign In"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <segue destination="udQ-ti-lAJ" kind="presentation" id="vww-jW-geh"/>
                                 </connections>

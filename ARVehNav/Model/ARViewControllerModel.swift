@@ -44,32 +44,27 @@ class ARViewControllerModel {
     
     func returnLastInstruction(step: RouteStep, altitude: Double) -> LocationNode {
         let location = CLLocation(coordinate: step.coordinates, altitude: altitude + 6)
-        let node = LocationNode(location: location)
+        let arrow = UIImage(named: "RedArrow")!
+        let node = LocationAnnotationNode(location: location, image: arrow)
         node.tag = "finishArrow"
-        let instruction = SCNPlane(width: 6, height: 6)
-        instruction.firstMaterial?.diffuse.contents = UIImage(named: "RedArrow")
-        instruction.firstMaterial?.isDoubleSided = true
-        node.geometry = instruction
-        node.constraints = [SCNBillboardConstraint()]
+        node.scaleRelativeToDistance = true
         return node
     }
     
     func returnInstruction(step: MKRouteStep, altitude: Double, nextStep: CLLocationCoordinate2D, lastStep: CLLocationCoordinate2D) -> LocationNode {
         let location = CLLocation(coordinate: step.polyline.coordinate, altitude: altitude + 4)
-        let node = LocationNode(location: location)
-        node.tag = "instructionNode"
-        let instruction = SCNPlane(width: 6, height: 6)
+        let image: UIImage
         switch LocationManager.shared.getDirection(previous: lastStep, current: step.polyline.coordinate, next: nextStep) {
         case .right:
-            instruction.firstMaterial?.diffuse.contents = UIImage(named: "RightArrow")
+            image = UIImage(named: "RightArrow")!
         case .left:
-            instruction.firstMaterial?.diffuse.contents = UIImage(named: "LeftArrow")
+            image = UIImage(named: "LeftArrow")!
         case .straight:
-            instruction.firstMaterial?.diffuse.contents = UIImage(named: "StraightArrow")
+            image = UIImage(named: "StraightArrow")!
         }
-        instruction.firstMaterial?.isDoubleSided = true
-        node.geometry = instruction
-        node.constraints = [SCNBillboardConstraint()]
+        let node = LocationAnnotationNode(location: location, image: image)
+        node.scaleRelativeToDistance = true
+        node.tag = "instructionNode"
         return node
     }
 }
