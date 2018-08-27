@@ -78,8 +78,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             return d * 1000
     }
     
-    func getAltitude(destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double) -> Void)) {
-            var altitude: Double = -1
+    func getAltitude(destination: CLLocationCoordinate2D, onCompletion: @escaping ((Double?) -> Void)) {
+            var altitude: Double?
             Alamofire.request(Constants.getElevation(coordinates: destination)).responseJSON { response in
                 switch response.result {
                     

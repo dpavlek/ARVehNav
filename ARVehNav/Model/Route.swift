@@ -22,6 +22,7 @@ struct Route {
 class RouteManager {
     
     var route = Route()
+    var areAltitudesNil = true
     
     init(forRoute route: MKRoute) {
         let steps = calculateAllNodes(steps: route.polyline.coordinates)
@@ -76,6 +77,9 @@ class RouteManager {
         for (index,step) in self.route.steps.enumerated() {
             LocationManager.shared.getAltitude(destination: step.coordinates) {[weak self] altitude in
                 self?.route.steps[index].altitude = altitude
+                if altitude != nil{
+                    self?.areAltitudesNil = false
+                }
                 finished += 1
                 if(finished == count){
                     onCompletion(true)
