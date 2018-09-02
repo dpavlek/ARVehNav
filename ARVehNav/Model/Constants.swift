@@ -13,11 +13,6 @@ import Firebase
 struct Constants {
 
     static let elevationURL = "https://open.mapquestapi.com/elevation/v1/profile?key=fmbWHqXFXSOKUyC9Lst1apAEGqGkyJUS&shapeFormat=raw&latLngCollection="
-    
-    struct Refs{
-        static let databaseRoot = Database.database().reference()
-        static let databaseItems = databaseRoot.child("items")
-    }
 
     static func getElevation(coordinates: CLLocationCoordinate2D) -> URL {
         let tempurl = elevationURL.description + "\(coordinates.latitude),\(coordinates.longitude)"

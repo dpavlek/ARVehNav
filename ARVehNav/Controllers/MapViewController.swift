@@ -13,13 +13,15 @@ protocol handleMapSearch{
     func dropPinZoom(place: MKPlacemark)
 }
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var destinationMapView: MKMapView!
     @IBOutlet weak var toolBar: UIToolbar!
     
-    var resultSearchController:UISearchController? = nil
-    var selectedPin: MKPlacemark? = nil
+    private var resultSearchController:UISearchController? = nil
+    private var selectedPin: MKPlacemark? = nil
+    private var headingTimer: Timer!
+    
 
     internal var mapLocation: CLLocationCoordinate2D?
 
@@ -33,6 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         destinationMapView.showsScale = true
         destinationMapView.showsCompass = true
         destinationMapView.showsUserLocation = true
+        destinationMapView.setUserTrackingMode(.followWithHeading, animated: true)
         gestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         destinationMapView.addGestureRecognizer(gestureRecognizer)
         
@@ -51,6 +54,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         locationSearchTable.destinationMapView = destinationMapView
         locationSearchTable.handleMapSearchDelegate = self
+        
+        print(destinationMapView.camera.heading)
+        
+//        if let loc = LocationManager.shared.lastLocation{
+//            let center = CLLocationCoordinate2D(latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+//            let regio = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//            self.destinationMapView.setRegion(regio, animated: true)
+//        }
     }
     
     func setMapLocation(coord: CLLocationCoordinate2D){

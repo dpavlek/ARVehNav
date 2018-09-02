@@ -11,7 +11,7 @@ import ARKit
 import MapKit
 import ARCL
 
-class ARViewController: UIViewController, ARSessionDelegate {
+class ARViewController: UIViewController, ARSessionDelegate, MKMapViewDelegate {
     
     var destinationCoordinates = CLLocationCoordinate2D(latitude: 45.31262084016531, longitude: 18.406627540010845)
     private var routeSteps = [MKRouteStep]()
@@ -21,17 +21,19 @@ class ARViewController: UIViewController, ARSessionDelegate {
     private var speedTimer: Timer!
     private var stepTimer: Timer!
     private var routeTimer: Timer!
-    var itemAltitude: Double?
     private var sceneLocationView = SceneLocationView()
     private var routeManager: RouteManager?
     private let viewModel = ARViewControllerModel()
-    private var startTime = DispatchTime.now()
     
     @IBOutlet weak var GPSLoc: UILabel!
+    @IBOutlet weak var resetBtn: UIButton!
+    @IBOutlet weak var miniMap: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        miniMap.delegate = self
+        miniMap.alpha = 0.8
         sceneLocationView.run()
         view.addSubview(sceneLocationView)
         
@@ -52,8 +54,12 @@ class ARViewController: UIViewController, ARSessionDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         speedTimer.invalidate()
-        stepTimer.invalidate()
-        routeTimer.invalidate()
+        if stepTimer != nil {
+            stepTimer.invalidate()
+        }
+        if routeTimer != nil {
+            routeTimer.invalidate()
+        }
         sceneLocationView.pause()
         sceneLocationView.removeFromSuperview()
     }
@@ -72,19 +78,9 @@ class ARViewController: UIViewController, ARSessionDelegate {
                     self?.refreshARObjects()
                     self?.stepTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self?.checkSteps), userInfo: nil, repeats: true)
                     self?.routeTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self?.checkRoute), userInfo: nil, repeats: true)
-                    self?.addItemNode()
-                    let end = DispatchTime.now()
-                    let time = Double(end.uptimeNanoseconds - (self?.startTime.uptimeNanoseconds)!) / 1_000_000_000
-                    print("Time: \(time)")
+                    self?.resetBtn.isEnabled = true
                 }
             }
-        }
-    }
-    
-    func addItemNode() {
-        if let altitude = itemAltitude {
-            let location = CLLocation(coordinate: destinationCoordinates, altitude: altitude)
-            addNodeToScene(destinationLoc: location, tag: "itemNode")
         }
     }
     
@@ -92,11 +88,9 @@ class ARViewController: UIViewController, ARSessionDelegate {
         let node = LocationNode(location: destinationLoc)
         node.tag = tag
         node.geometry = SCNCylinder(radius: 3, height: 0.2)
-        if tag == "itemNode" {
-            node.geometry?.firstMaterial?.diffuse.contents = UIColor.green
-        } else {
-            node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
-        }
+        node.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        node.isHidden = true
+        node.opacity = 0.8
         sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: node)
     }
     
@@ -105,7 +99,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
     
     func restartSession() {
-        startTime = DispatchTime.now()
+        resetBtn.isEnabled = false
         GPSLoc.text = NSLocalizedString("loading", comment: "Loading...")
         if stepTimer != nil {
             stepTimer.invalidate()
@@ -117,20 +111,38 @@ class ARViewController: UIViewController, ARSessionDelegate {
         for node in sceneLocationView.findNodes(tagged: "roadMarker") {
             sceneLocationView.removeLocationNode(locationNode: node)
         }
+        for node in sceneLocationView.findNodes(tagged: "lastNode") {
+            sceneLocationView.removeLocationNode(locationNode: node)
+        }
         sceneLocationView.run()
         viewModel.getRoute(destination: destinationCoordinates) { [weak self] route in
             self?.routeSteps = route.steps
             self?.routeManager = RouteManager(forRoute: route)
             self?.addARInstruction()
+            self?.setMap(route: route)
             self?.addAllNodesToScene()
         }
     }
     
+    func setMap(route: MKRoute) {
+        let destAnnotation = MKPointAnnotation()
+        destAnnotation.coordinate = destinationCoordinates
+        miniMap.showAnnotations([destAnnotation], animated: true)
+        miniMap.add(route.polyline, level: MKOverlayLevel.aboveRoads)
+        miniMap.setUserTrackingMode(.followWithHeading, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 4.0
+        return renderer
+    }
+    
     @objc func changeColorToSpeed() {
-        if let location = LocationManager.shared.getLastLocation() {
+        if let location = LocationManager.shared.lastLocation {
             var currSpeed = location.speed
             let coordinates = location.coordinate
-            print(currSpeed)
             if currSpeed >= 0 {
                 currSpeed = currSpeed / 3.6
                 speedManager.getLocationID(location: coordinates) {
@@ -139,6 +151,7 @@ class ARViewController: UIViewController, ARSessionDelegate {
                         speed in
                         let nodes = self.sceneLocationView.findNodes(tagged: "roadMarker")
                         let maxSpeed = Double(speed) * 1.1
+                        print("Current speed: \(currSpeed) Max: \(maxSpeed)")
                         for node in nodes {
                             if node == nodes.last {
                                 return
@@ -211,11 +224,11 @@ class ARViewController: UIViewController, ARSessionDelegate {
     @objc func checkSteps() {
         DispatchQueue.global(qos: .background).async {
             if self.routeSteps.count > 0 {
-                self.addARInstruction()
                 if let distance = LocationManager.shared.getDistanceTo(locationCoords: (self.routeSteps.first?.polyline.coordinate)!) {
                     if distance < 20 {
                         self.passedSteps.append(self.routeSteps.first!)
                         self.routeSteps.remove(at: 0)
+                        self.addARInstruction()
                     }
                 }
                 DispatchQueue.main.async {
@@ -275,19 +288,30 @@ class ARViewController: UIViewController, ARSessionDelegate {
     }
     
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        if let altitudesAreNil = routeManager?.areAltitudesNil {
-            if altitudesAreNil {
-                for node in sceneLocationView.findNodes(tagged: "roadMarker") {
-                    if let y = session.currentFrame?.camera.transform.columns.3.y {
-                        node.position.y = y - 1
+        if let camPosition = session.currentFrame?.camera.transform.columns.3 {
+            if let altitudesAreNil = routeManager?.areAltitudesNil {
+                if altitudesAreNil {
+                    for node in sceneLocationView.findNodes(tagged: "roadMarker") {
+                        let position = SCNVector3(camPosition.x, camPosition.y, camPosition.z)
+                        let distance = viewModel.distanceToNode(from: position, to: node.presentation.worldPosition)
+                        if distance < 50 {
+                            node.isHidden = false
+                        } else {
+                            node.isHidden = true
+                        }
+                        node.position.y = camPosition.y - 1
+                    }
+                    for node in sceneLocationView.findNodes(tagged: "instructionNode") {
+                        node.position.y = camPosition.y + 1
+                    }
+                    for node in sceneLocationView.findNodes(tagged: "lastNode") {
+                        node.position.y = camPosition.y + 2
                     }
                 }
             } else {
                 for node in sceneLocationView.findNodes(tagged: "roadMarker") {
-                    if let y = session.currentFrame?.camera.transform.columns.3.y {
-                        if abs(node.position.y - y) < 2 {
-                            node.position.y = y - 1
-                        }
+                    if abs(node.position.y - camPosition.y) < 2 {
+                        node.position.y = camPosition.y - 1
                     }
                 }
             }

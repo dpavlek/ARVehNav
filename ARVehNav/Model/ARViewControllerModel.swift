@@ -46,8 +46,9 @@ class ARViewControllerModel {
         let location = CLLocation(coordinate: step.coordinates, altitude: altitude + 6)
         let arrow = UIImage(named: "RedArrow")!
         let node = LocationAnnotationNode(location: location, image: arrow)
-        node.tag = "finishArrow"
+        node.tag = "lastNode"
         node.scaleRelativeToDistance = true
+        node.opacity = 0.8
         return node
     }
     
@@ -65,6 +66,12 @@ class ARViewControllerModel {
         let node = LocationAnnotationNode(location: location, image: image)
         node.scaleRelativeToDistance = true
         node.tag = "instructionNode"
+        node.opacity = 0.8
         return node
+    }
+    
+    func distanceToNode(from node1: SCNVector3, to node2: SCNVector3)->Float{
+        let distance = SCNVector3(node1.x - node2.x, node1.y - node2.y, node1.z - node2.z)
+        return sqrtf(distance.x * distance.x + distance.y * distance.y + distance.z * distance.z)
     }
 }
